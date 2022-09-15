@@ -3,10 +3,17 @@
 	"properties": {
 		"activities": [
 			{
-				"name": "MoveToClean",
+				"name": "WhToClean",
 				"description": "Move important stuff data to \"ikiProductsClean\" database",
 				"type": "Copy",
-				"dependsOn": [],
+				"dependsOn": [
+					{
+						"activity": "CollectFromIki",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
 				"policy": {
 					"timeout": "0.12:00:00",
 					"retry": 0,
@@ -258,6 +265,27 @@
 						"type": "DatasetReference"
 					}
 				]
+			},
+			{
+				"name": "CollectFromIki",
+				"description": "Move to wh",
+				"type": "DatabricksNotebook",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"notebookPath": "/IKIData/main"
+				},
+				"linkedServiceName": {
+					"referenceName": "AzureDatabricks1",
+					"type": "LinkedServiceReference"
+				}
 			}
 		],
 		"annotations": []
