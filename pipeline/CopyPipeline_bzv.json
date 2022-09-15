@@ -3,7 +3,8 @@
 	"properties": {
 		"activities": [
 			{
-				"name": "Copy_bzv",
+				"name": "MoveToClean",
+				"description": "Move important stuff data to \"ikiProductsClean\" database",
 				"type": "Copy",
 				"dependsOn": [],
 				"policy": {
