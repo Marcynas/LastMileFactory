@@ -1,0 +1,9 @@
+{
+	"name": "LastMileFactory",
+	"location": "westeurope",
+	"identity": {
+		"type": "SystemAssigned",
+		"principalId": "40c085b0-7762-4e47-a4cd-5ad794ae4cd0",
+		"tenantId": "fcf67057-50c9-4ad4-98f3-ffca64add9e9"
+	}
+}
