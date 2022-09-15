@@ -1,0 +1,16 @@
+{
+	"name": "DestinationDataset_bzv",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "AzurePostgreSql_ProductsCLEAN",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "AzurePostgreSqlTable",
+		"schema": [],
+		"typeProperties": {
+			"schema": "public",
+			"table": "cleanIkiData"
+		}
+	}
+}
