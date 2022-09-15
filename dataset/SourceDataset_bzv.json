@@ -1,0 +1,545 @@
+{
+	"name": "SourceDataset_bzv",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "AzurePostgreSql_Products",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "AzurePostgreSqlTable",
+		"schema": [
+			{
+				"name": "id",
+				"type": "text",
+				"precision": 0,
+				"scale": 0
+			},
+			{
+				"name": "objectID",
+				"type": "text",
+				"precision": 0,
+				"scale": 0
+			},
+			{
+				"name": "productId",
+				"type": "text",
+				"precision": 0,
+				"scale": 0
+			},
+			{
+				"name": "chainId",
+				"type": "text",
+				"precision": 0,
+				"scale": 0
+			},
+			{
+				"name": "categoryId",
+				"type": "text",
+				"precision": 0,
+				"scale": 0
+			},
+			{
+				"name": "productCode",
+				"type": "text",
+				"precision": 0,
+				"scale": 0
+			},
+			{
+				"name": "barcodes",
+				"type": "text",
+				"precision": 0,
+				"scale": 0
+			},
+			{
+				"name": "tags",
+				"type": "text",
+				"precision": 0,
+				"scale": 0
+			},
+			{
+				"name": "categoryCode",
+				"type": "text",
+				"precision": 0,
+				"scale": 0
+			},
+			{
+				"name": "constraintCode",
+				"type": "text",
+				"precision": 0,
+				"scale": 0
+			},
+			{
+				"name": "countryOfOrigin",
+				"type": "text",
+				"precision": 0,
+				"scale": 0
+			},
+			{
+				"name": "supplier",
+				"type": "text",
+				"precision": 0,
+				"scale": 0
+			},
+			{
+				"name": "producer",
+				"type": "text",
+				"precision": 0,
+				"scale": 0
+			},
+			{
+				"name": "packaging",
+				"type": "text",
+				"precision": 0,
+				"scale": 0
+			},
+			{
+				"name": "taxCount",
+				"type": "bigint",
+				"precision": 0,
+				"scale": 0
+			},
+			{
+				"name": "taxCode",
+				"type": "text",
+				"precision": 0,
+				"scale": 0
+			},
+			{
+				"name": "conversionMeasure",
+				"type": "text",
+				"precision": 0,
+				"scale": 0
+			},
+			{
+				"name": "unitOfMeasure",
+				"type": "text",
+				"precision": 0,
+				"scale": 0
+			},
+			{
+				"name": "maximumOrderQuantity",
+				"type": "bigint",
+				"precision": 0,
+				"scale": 0
+			},
+			{
+				"name": "standardOrderQuantity",
+				"type": "double precision",
+				"precision": 0,
+				"scale": 0
+			},
+			{
+				"name": "conversionValue",
+				"type": "double precision",
+				"precision": 0,
+				"scale": 0
+			},
+			{
+				"name": "conversionToKg",
+				"type": "double precision",
+				"precision": 0,
+				"scale": 0
+			},
+			{
+				"name": "isFixedWeight",
+				"type": "boolean",
+				"precision": 0,
+				"scale": 0
+			},
+			{
+				"name": "bestBeforeType",
+				"type": "bigint",
+				"precision": 0,
+				"scale": 0
+			},
+			{
+				"name": "dateCreated",
+				"type": "bigint",
+				"precision": 0,
+				"scale": 0
+			},
+			{
+				"name": "dateLastRefresh",
+				"type": "bigint",
+				"precision": 0,
+				"scale": 0
+			},
+			{
+				"name": "changedBy",
+				"type": "text",
+				"precision": 0,
+				"scale": 0
+			},
+			{
+				"name": "alternativeText",
+				"type": "text",
+				"precision": 0,
+				"scale": 0
+			},
+			{
+				"name": "isActive",
+				"type": "boolean",
+				"precision": 0,
+				"scale": 0
+			},
+			{
+				"name": "isApproved",
+				"type": "boolean",
+				"precision": 0,
+				"scale": 0
+			},
+			{
+				"name": "storeIds",
+				"type": "text",
+				"precision": 0,
+				"scale": 0
+			},
+			{
+				"name": "stockStores",
+				"type": "text",
+				"precision": 0,
+				"scale": 0
+			},
+			{
+				"name": "bannerIds",
+				"type": "text",
+				"precision": 0,
+				"scale": 0
+			},
+			{
+				"name": "photoUrl",
+				"type": "text",
+				"precision": 0,
+				"scale": 0
+			},
+			{
+				"name": "thumbUrl",
+				"type": "text",
+				"precision": 0,
+				"scale": 0
+			},
+			{
+				"name": "imageUrl",
+				"type": "text",
+				"precision": 0,
+				"scale": 0
+			},
+			{
+				"name": "karmaFrequency",
+				"type": "bigint",
+				"precision": 0,
+				"scale": 0
+			},
+			{
+				"name": "karmaSalesQty",
+				"type": "double precision",
+				"precision": 0,
+				"scale": 0
+			},
+			{
+				"name": "karmaSalesPrice",
+				"type": "double precision",
+				"precision": 0,
+				"scale": 0
+			},
+			{
+				"name": "karmaAdjustment",
+				"type": "bigint",
+				"precision": 0,
+				"scale": 0
+			},
+			{
+				"name": "w_updateTrigger",
+				"type": "bigint",
+				"precision": 0,
+				"scale": 0
+			},
+			{
+				"name": "unitWeight",
+				"type": "bigint",
+				"precision": 0,
+				"scale": 0
+			},
+			{
+				"name": "name.lt",
+				"type": "text",
+				"precision": 0,
+				"scale": 0
+			},
+			{
+				"name": "name.de",
+				"type": "text",
+				"precision": 0,
+				"scale": 0
+			},
+			{
+				"name": "name.en",
+				"type": "text",
+				"precision": 0,
+				"scale": 0
+			},
+			{
+				"name": "name.ru",
+				"type": "text",
+				"precision": 0,
+				"scale": 0
+			},
+			{
+				"name": "description.de",
+				"type": "text",
+				"precision": 0,
+				"scale": 0
+			},
+			{
+				"name": "description.en",
+				"type": "text",
+				"precision": 0,
+				"scale": 0
+			},
+			{
+				"name": "description.ru",
+				"type": "text",
+				"precision": 0,
+				"scale": 0
+			},
+			{
+				"name": "description.lt",
+				"type": "text",
+				"precision": 0,
+				"scale": 0
+			},
+			{
+				"name": "ingredients.en",
+				"type": "text",
+				"precision": 0,
+				"scale": 0
+			},
+			{
+				"name": "ingredients.lt",
+				"type": "text",
+				"precision": 0,
+				"scale": 0
+			},
+			{
+				"name": "storingConditions.en",
+				"type": "text",
+				"precision": 0,
+				"scale": 0
+			},
+			{
+				"name": "storingConditions.lt",
+				"type": "text",
+				"precision": 0,
+				"scale": 0
+			},
+			{
+				"name": "allergens.lt",
+				"type": "text",
+				"precision": 0,
+				"scale": 0
+			},
+			{
+				"name": "allergens.en",
+				"type": "text",
+				"precision": 0,
+				"scale": 0
+			},
+			{
+				"name": "nutrition.energy",
+				"type": "text",
+				"precision": 0,
+				"scale": 0
+			},
+			{
+				"name": "nutrition.fat",
+				"type": "text",
+				"precision": 0,
+				"scale": 0
+			},
+			{
+				"name": "nutrition.salt",
+				"type": "text",
+				"precision": 0,
+				"scale": 0
+			},
+			{
+				"name": "nutrition.protein",
+				"type": "text",
+				"precision": 0,
+				"scale": 0
+			},
+			{
+				"name": "nutrition.carbs",
+				"type": "text",
+				"precision": 0,
+				"scale": 0
+			},
+			{
+				"name": "nutrition.satFat",
+				"type": "text",
+				"precision": 0,
+				"scale": 0
+			},
+			{
+				"name": "nutrition.sugar",
+				"type": "text",
+				"precision": 0,
+				"scale": 0
+			},
+			{
+				"name": "prc.p",
+				"type": "double precision",
+				"precision": 0,
+				"scale": 0
+			},
+			{
+				"name": "prc.s",
+				"type": "double precision",
+				"precision": 0,
+				"scale": 0
+			},
+			{
+				"name": "prc.l",
+				"type": "double precision",
+				"precision": 0,
+				"scale": 0
+			},
+			{
+				"name": "prc.still",
+				"type": "double precision",
+				"precision": 0,
+				"scale": 0
+			},
+			{
+				"name": "prc.ltill",
+				"type": "double precision",
+				"precision": 0,
+				"scale": 0
+			},
+			{
+				"name": "prc.ap",
+				"type": "double precision",
+				"precision": 0,
+				"scale": 0
+			},
+			{
+				"name": "prc.lap",
+				"type": "double precision",
+				"precision": 0,
+				"scale": 0
+			},
+			{
+				"name": "prc.lstill",
+				"type": "bigint",
+				"precision": 0,
+				"scale": 0
+			},
+			{
+				"name": "dimensions.length",
+				"type": "bigint",
+				"precision": 0,
+				"scale": 0
+			},
+			{
+				"name": "dimensions.width",
+				"type": "bigint",
+				"precision": 0,
+				"scale": 0
+			},
+			{
+				"name": "dimensions.height",
+				"type": "bigint",
+				"precision": 0,
+				"scale": 0
+			},
+			{
+				"name": "karmaChain.adjustment",
+				"type": "bigint",
+				"precision": 0,
+				"scale": 0
+			},
+			{
+				"name": "karmaChain.salesFrequency",
+				"type": "bigint",
+				"precision": 0,
+				"scale": 0
+			},
+			{
+				"name": "karmaChain.salesPrice",
+				"type": "double precision",
+				"precision": 0,
+				"scale": 0
+			},
+			{
+				"name": "karmaChain.salesQty",
+				"type": "double precision",
+				"precision": 0,
+				"scale": 0
+			},
+			{
+				"name": "karmaChain.totalFrequency",
+				"type": "bigint",
+				"precision": 0,
+				"scale": 0
+			},
+			{
+				"name": "karmaChain.totalPrice",
+				"type": "double precision",
+				"precision": 0,
+				"scale": 0
+			},
+			{
+				"name": "karmaChain.totalQty",
+				"type": "double precision",
+				"precision": 0,
+				"scale": 0
+			},
+			{
+				"name": "storingConditions.de",
+				"type": "text",
+				"precision": 0,
+				"scale": 0
+			},
+			{
+				"name": "storingConditions.ru",
+				"type": "text",
+				"precision": 0,
+				"scale": 0
+			},
+			{
+				"name": "ingredients.de",
+				"type": "text",
+				"precision": 0,
+				"scale": 0
+			},
+			{
+				"name": "ingredients.ru",
+				"type": "text",
+				"precision": 0,
+				"scale": 0
+			},
+			{
+				"name": "allergens.de",
+				"type": "text",
+				"precision": 0,
+				"scale": 0
+			},
+			{
+				"name": "allergens.ru",
+				"type": "text",
+				"precision": 0,
+				"scale": 0
+			},
+			{
+				"name": "taxes.deposit",
+				"type": "double precision",
+				"precision": 0,
+				"scale": 0
+			}
+		],
+		"typeProperties": {
+			"schema": "public",
+			"table": "rawIkiData"
+		}
+	}
+}
