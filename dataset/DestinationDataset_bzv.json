@@ -2,7 +2,7 @@
 	"name": "DestinationDataset_bzv",
 	"properties": {
 		"linkedServiceName": {
-			"referenceName": "AzurePostgreSql_ProductsCLEAN",
+			"referenceName": "AzurePostgreSql_Products",
 			"type": "LinkedServiceReference"
 		},
 		"annotations": [],
