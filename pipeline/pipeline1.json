@@ -295,7 +295,7 @@
 				"type": "ExecuteDataFlow",
 				"dependsOn": [
 					{
-						"activity": "Copy important columns",
+						"activity": "formating nutriens notebook",
 						"dependencyConditions": [
 							"Succeeded"
 						]
@@ -319,6 +319,33 @@
 						"computeType": "General"
 					},
 					"traceLevel": "Fine"
+				}
+			},
+			{
+				"name": "formating nutriens notebook",
+				"type": "DatabricksNotebook",
+				"dependsOn": [
+					{
+						"activity": "Copy important columns",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"notebookPath": "/IKIData/replace commas and remove letters"
+				},
+				"linkedServiceName": {
+					"referenceName": "Formating notebook",
+					"type": "LinkedServiceReference"
 				}
 			}
 		],

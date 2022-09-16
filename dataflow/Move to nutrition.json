@@ -68,7 +68,8 @@
 				"          salt as double,",
 				"          protein as double,",
 				"          carbs as double,",
-				"          satfat as double",
+				"          satfat as double,",
+				"          sugar as double",
 				"     ),",
 				"     deletable:false,",
 				"     insertable:true,",
@@ -81,7 +82,8 @@
 				"          salt,",
 				"          protein,",
 				"          carbs,",
-				"          satfat",
+				"          satfat,",
+				"          sugar",
 				"     )) ~> nutrition"
 			]
 		}

@@ -49,6 +49,12 @@
 				"type": "double precision",
 				"precision": 0,
 				"scale": 0
+			},
+			{
+				"name": "sugar",
+				"type": "double precision",
+				"precision": 0,
+				"scale": 0
 			}
 		],
 		"typeProperties": {
