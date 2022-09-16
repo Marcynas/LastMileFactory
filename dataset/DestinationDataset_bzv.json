@@ -7,10 +7,137 @@
 		},
 		"annotations": [],
 		"type": "AzurePostgreSqlTable",
-		"schema": [],
+		"schema": [
+			{
+				"name": "id",
+				"type": "character varying",
+				"precision": 0,
+				"scale": 0
+			},
+			{
+				"name": "constraintcode",
+				"type": "character varying",
+				"precision": 0,
+				"scale": 0
+			},
+			{
+				"name": "countryoforigin",
+				"type": "character varying",
+				"precision": 0,
+				"scale": 0
+			},
+			{
+				"name": "supplier",
+				"type": "character varying",
+				"precision": 0,
+				"scale": 0
+			},
+			{
+				"name": "producer",
+				"type": "character varying",
+				"precision": 0,
+				"scale": 0
+			},
+			{
+				"name": "packaging",
+				"type": "character varying",
+				"precision": 0,
+				"scale": 0
+			},
+			{
+				"name": "photourl",
+				"type": "character varying",
+				"precision": 0,
+				"scale": 0
+			},
+			{
+				"name": "name",
+				"type": "character varying",
+				"precision": 0,
+				"scale": 0
+			},
+			{
+				"name": "description",
+				"type": "character varying",
+				"precision": 0,
+				"scale": 0
+			},
+			{
+				"name": "ingredients",
+				"type": "character varying",
+				"precision": 0,
+				"scale": 0
+			},
+			{
+				"name": "storingconditions",
+				"type": "character varying",
+				"precision": 0,
+				"scale": 0
+			},
+			{
+				"name": "allergens",
+				"type": "character varying",
+				"precision": 0,
+				"scale": 0
+			},
+			{
+				"name": "energy",
+				"type": "character varying",
+				"precision": 0,
+				"scale": 0
+			},
+			{
+				"name": "fat",
+				"type": "real",
+				"precision": 0,
+				"scale": 0
+			},
+			{
+				"name": "salt",
+				"type": "real",
+				"precision": 0,
+				"scale": 0
+			},
+			{
+				"name": "protein",
+				"type": "real",
+				"precision": 0,
+				"scale": 0
+			},
+			{
+				"name": "carbs",
+				"type": "real",
+				"precision": 0,
+				"scale": 0
+			},
+			{
+				"name": "satfat",
+				"type": "real",
+				"precision": 0,
+				"scale": 0
+			},
+			{
+				"name": "shugar",
+				"type": "real",
+				"precision": 0,
+				"scale": 0
+			},
+			{
+				"name": "pricesale",
+				"type": "real",
+				"precision": 0,
+				"scale": 0
+			},
+			{
+				"name": "pricenosale",
+				"type": "real",
+				"precision": 0,
+				"scale": 0
+			}
+		],
 		"typeProperties": {
 			"schema": "public",
-			"table": "cleanIkiData"
+			"table": "cleanikidata"
 		}
 	}
 }
