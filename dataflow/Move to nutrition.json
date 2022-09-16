@@ -23,7 +23,7 @@
 			],
 			"transformations": [
 				{
-					"name": "ConvertedNutrition"
+					"name": "derivedColumn1"
 				}
 			],
 			"scriptLines": [
@@ -53,14 +53,13 @@
 				"     validateSchema: false,",
 				"     isolationLevel: 'READ_UNCOMMITTED',",
 				"     format: 'table') ~> ikiData",
-				"ikiData parse(fat = toDouble(trim(fat, ' g')),",
-				"          salt = toDouble(trim(salt, ' g')),",
-				"          protein = toDouble(trim(protein, ' g')),",
-				"          carbs = toDouble(trim(carbs, ' g')),",
-				"          satfat = toDouble(trim(satfat, ' g')),",
-				"     format: 'json',",
-				"     documentForm: 'singleDocument') ~> ConvertedNutrition",
-				"ConvertedNutrition sink(allowSchemaDrift: true,",
+				"ikiData derive(fat = toDouble(fat),",
+				"          salt = toDouble(salt),",
+				"          protein = toDouble(protein),",
+				"          carbs = toDouble(carbs),",
+				"          satfat = toDouble(satfat),",
+				"          sugar = toDouble(sugar)) ~> derivedColumn1",
+				"derivedColumn1 sink(allowSchemaDrift: true,",
 				"     validateSchema: false,",
 				"     input(",
 				"          id as integer,",
@@ -76,8 +75,14 @@
 				"     updateable:false,",
 				"     upsertable:false,",
 				"     format: 'table',",
-				"     skipDuplicateMapInputs: true,",
-				"     skipDuplicateMapOutputs: true) ~> nutrition"
+				"     mapColumn(",
+				"          energy,",
+				"          fat,",
+				"          salt,",
+				"          protein,",
+				"          carbs,",
+				"          satfat",
+				"     )) ~> nutrition"
 			]
 		}
 	}
