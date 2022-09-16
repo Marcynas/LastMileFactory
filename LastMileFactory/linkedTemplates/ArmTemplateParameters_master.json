@@ -5,17 +5,20 @@
 		"factoryName": {
 			"value": "LastMileFactory"
 		},
-		"AzureDatabricks1_accessToken": {
-			"value": ""
-		},
 		"AzurePostgreSql_Products_connectionString": {
 			"value": ""
 		},
-		"AzurePostgreSql_ProductsCLEAN_connectionString": {
+		"Formating notebook_accessToken": {
 			"value": ""
 		},
-		"AzureDatabricks1_properties_typeProperties_existingClusterId": {
-			"value": "0915-132239-zfcxzz06"
+		"iki_ProductsWh_connectionString": {
+			"value": ""
+		},
+		"iki_products_connectionString": {
+			"value": ""
+		},
+		"Formating notebook_properties_typeProperties_existingClusterId": {
+			"value": "0914-123506-hbz51gu1"
 		},
 		"containerUri": {
 			"value": ""

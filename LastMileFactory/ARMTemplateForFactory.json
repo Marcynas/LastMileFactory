@@ -7,21 +7,25 @@
 			"metadata": "Data Factory name",
 			"defaultValue": "LastMileFactory"
 		},
-		"AzureDatabricks1_accessToken": {
-			"type": "secureString",
-			"metadata": "Secure string for 'accessToken' of 'AzureDatabricks1'"
-		},
 		"AzurePostgreSql_Products_connectionString": {
 			"type": "secureString",
 			"metadata": "Secure string for 'connectionString' of 'AzurePostgreSql_Products'"
 		},
-		"AzurePostgreSql_ProductsCLEAN_connectionString": {
+		"Formating notebook_accessToken": {
 			"type": "secureString",
-			"metadata": "Secure string for 'connectionString' of 'AzurePostgreSql_ProductsCLEAN'"
+			"metadata": "Secure string for 'accessToken' of 'Formating notebook'"
 		},
-		"AzureDatabricks1_properties_typeProperties_existingClusterId": {
+		"iki_ProductsWh_connectionString": {
+			"type": "secureString",
+			"metadata": "Secure string for 'connectionString' of 'iki_ProductsWh'"
+		},
+		"iki_products_connectionString": {
+			"type": "secureString",
+			"metadata": "Secure string for 'connectionString' of 'iki_products'"
+		},
+		"Formating notebook_properties_typeProperties_existingClusterId": {
 			"type": "string",
-			"defaultValue": "0915-132239-zfcxzz06"
+			"defaultValue": "0914-123506-hbz51gu1"
 		}
 	},
 	"variables": {
@@ -29,14 +33,13 @@
 	},
 	"resources": [
 		{
-			"name": "[concat(parameters('factoryName'), '/CopyPipeline_bzv')]",
+			"name": "[concat(parameters('factoryName'), '/pipeline1')]",
 			"type": "Microsoft.DataFactory/factories/pipelines",
 			"apiVersion": "2018-06-01",
 			"properties": {
 				"activities": [
 					{
-						"name": "WhToClean",
-						"description": "Move important stuff data to \"ikiProductsClean\" database",
+						"name": "Copy important columns",
 						"type": "Copy",
 						"dependsOn": [],
 						"policy": {
@@ -46,19 +49,11 @@
 							"secureOutput": false,
 							"secureInput": false
 						},
-						"userProperties": [
-							{
-								"name": "Source",
-								"value": "public.rawIkiData"
-							},
-							{
-								"name": "Destination",
-								"value": "public.cleanIkiData"
-							}
-						],
+						"userProperties": [],
 						"typeProperties": {
 							"source": {
-								"type": "AzurePostgreSqlSource"
+								"type": "AzurePostgreSqlSource",
+								"partitionOption": "None"
 							},
 							"sink": {
 								"type": "AzurePostgreSQLSink",
@@ -67,7 +62,6 @@
 								"writeMethod": "CopyCommand"
 							},
 							"enableStaging": false,
-							"validateDataConsistency": false,
 							"translator": {
 								"type": "TabularTranslator",
 								"mappings": [
@@ -321,25 +315,25 @@
 						},
 						"inputs": [
 							{
-								"referenceName": "SourceDataset_bzv",
+								"referenceName": "rawIkiData_fromIkiProductsWH",
 								"type": "DatasetReference",
 								"parameters": {}
 							}
 						],
 						"outputs": [
 							{
-								"referenceName": "DestinationDataset_bzv",
+								"referenceName": "ikiData_fromIkiProductsWh",
 								"type": "DatasetReference",
 								"parameters": {}
 							}
 						]
 					},
 					{
-						"name": "dataflow1",
+						"name": "Move to nutrition",
 						"type": "ExecuteDataFlow",
 						"dependsOn": [
 							{
-								"activity": "WhToClean",
+								"activity": "formating nutriens notebook",
 								"dependencyConditions": [
 									"Succeeded"
 								]
@@ -355,14 +349,13 @@
 						"userProperties": [],
 						"typeProperties": {
 							"dataflow": {
-								"referenceName": "dataflow1",
+								"referenceName": "Move to nutrition",
 								"type": "DataFlowReference",
 								"parameters": {},
 								"datasetParameters": {
-									"cleanIkiData": {},
-									"Output": {}
-								},
-								"linkedServiceParameters": {}
+									"ikiData": {},
+									"nutrition": {}
+								}
 							},
 							"staging": {},
 							"compute": {
@@ -370,6 +363,33 @@
 								"computeType": "General"
 							},
 							"traceLevel": "Fine"
+						}
+					},
+					{
+						"name": "formating nutriens notebook",
+						"type": "DatabricksNotebook",
+						"dependsOn": [
+							{
+								"activity": "Copy important columns",
+								"dependencyConditions": [
+									"Succeeded"
+								]
+							}
+						],
+						"policy": {
+							"timeout": "0.12:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"notebookPath": "/IKIData/replace commas and remove letters"
+						},
+						"linkedServiceName": {
+							"referenceName": "Formating notebook",
+							"type": "LinkedServiceReference"
 						}
 					}
 				],
@@ -380,18 +400,19 @@
 				"annotations": []
 			},
 			"dependsOn": [
-				"[concat(variables('factoryId'), '/datasets/SourceDataset_bzv')]",
-				"[concat(variables('factoryId'), '/datasets/DestinationDataset_bzv')]",
-				"[concat(variables('factoryId'), '/dataflows/dataflow1')]"
+				"[concat(variables('factoryId'), '/datasets/rawIkiData_fromIkiProductsWH')]",
+				"[concat(variables('factoryId'), '/datasets/ikiData_fromIkiProductsWh')]",
+				"[concat(variables('factoryId'), '/dataflows/Move to nutrition')]",
+				"[concat(variables('factoryId'), '/linkedServices/Formating notebook')]"
 			]
 		},
 		{
-			"name": "[concat(parameters('factoryName'), '/DestinationDataset_bzv')]",
+			"name": "[concat(parameters('factoryName'), '/ikiData_fromIkiProductsWh')]",
 			"type": "Microsoft.DataFactory/factories/datasets",
 			"apiVersion": "2018-06-01",
 			"properties": {
 				"linkedServiceName": {
-					"referenceName": "AzurePostgreSql_Products",
+					"referenceName": "iki_ProductsWh",
 					"type": "LinkedServiceReference"
 				},
 				"annotations": [],
@@ -520,20 +541,90 @@
 				],
 				"typeProperties": {
 					"schema": "public",
-					"table": "cleanikidata"
+					"table": "ikidata"
 				}
 			},
 			"dependsOn": [
-				"[concat(variables('factoryId'), '/linkedServices/AzurePostgreSql_Products')]"
+				"[concat(variables('factoryId'), '/linkedServices/iki_ProductsWh')]"
 			]
 		},
 		{
-			"name": "[concat(parameters('factoryName'), '/SourceDataset_bzv')]",
+			"name": "[concat(parameters('factoryName'), '/nutrition')]",
 			"type": "Microsoft.DataFactory/factories/datasets",
 			"apiVersion": "2018-06-01",
 			"properties": {
 				"linkedServiceName": {
-					"referenceName": "AzurePostgreSql_Products",
+					"referenceName": "iki_products",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "AzurePostgreSqlTable",
+				"schema": [
+					{
+						"name": "id",
+						"type": "integer",
+						"precision": 0,
+						"scale": 0
+					},
+					{
+						"name": "energy",
+						"type": "character varying",
+						"precision": 0,
+						"scale": 0
+					},
+					{
+						"name": "fat",
+						"type": "double precision",
+						"precision": 0,
+						"scale": 0
+					},
+					{
+						"name": "salt",
+						"type": "double precision",
+						"precision": 0,
+						"scale": 0
+					},
+					{
+						"name": "protein",
+						"type": "double precision",
+						"precision": 0,
+						"scale": 0
+					},
+					{
+						"name": "carbs",
+						"type": "double precision",
+						"precision": 0,
+						"scale": 0
+					},
+					{
+						"name": "satfat",
+						"type": "double precision",
+						"precision": 0,
+						"scale": 0
+					},
+					{
+						"name": "sugar",
+						"type": "double precision",
+						"precision": 0,
+						"scale": 0
+					}
+				],
+				"typeProperties": {
+					"schema": "public",
+					"table": "nutrition"
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/iki_products')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/rawIkiData_fromIkiProductsWH')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "iki_ProductsWh",
 					"type": "LinkedServiceReference"
 				},
 				"annotations": [],
@@ -798,7 +889,7 @@
 						"scale": 0
 					},
 					{
-						"name": "name.de",
+						"name": "name.ru",
 						"type": "text",
 						"precision": 0,
 						"scale": 0
@@ -810,7 +901,7 @@
 						"scale": 0
 					},
 					{
-						"name": "name.ru",
+						"name": "name.de",
 						"type": "text",
 						"precision": 0,
 						"scale": 0
@@ -822,7 +913,7 @@
 						"scale": 0
 					},
 					{
-						"name": "description.en",
+						"name": "description.lt",
 						"type": "text",
 						"precision": 0,
 						"scale": 0
@@ -834,7 +925,7 @@
 						"scale": 0
 					},
 					{
-						"name": "description.lt",
+						"name": "description.en",
 						"type": "text",
 						"precision": 0,
 						"scale": 0
@@ -852,7 +943,7 @@
 						"scale": 0
 					},
 					{
-						"name": "storingConditions.en",
+						"name": "storingConditions.ru",
 						"type": "text",
 						"precision": 0,
 						"scale": 0
@@ -864,7 +955,13 @@
 						"scale": 0
 					},
 					{
-						"name": "allergens.lt",
+						"name": "storingConditions.de",
+						"type": "text",
+						"precision": 0,
+						"scale": 0
+					},
+					{
+						"name": "storingConditions.en",
 						"type": "text",
 						"precision": 0,
 						"scale": 0
@@ -876,7 +973,7 @@
 						"scale": 0
 					},
 					{
-						"name": "nutrition.energy",
+						"name": "allergens.lt",
 						"type": "text",
 						"precision": 0,
 						"scale": 0
@@ -894,7 +991,7 @@
 						"scale": 0
 					},
 					{
-						"name": "nutrition.protein",
+						"name": "nutrition.satFat",
 						"type": "text",
 						"precision": 0,
 						"scale": 0
@@ -906,13 +1003,19 @@
 						"scale": 0
 					},
 					{
-						"name": "nutrition.satFat",
+						"name": "nutrition.energy",
 						"type": "text",
 						"precision": 0,
 						"scale": 0
 					},
 					{
 						"name": "nutrition.sugar",
+						"type": "text",
+						"precision": 0,
+						"scale": 0
+					},
+					{
+						"name": "nutrition.protein",
 						"type": "text",
 						"precision": 0,
 						"scale": 0
@@ -1026,18 +1129,6 @@
 						"scale": 0
 					},
 					{
-						"name": "storingConditions.de",
-						"type": "text",
-						"precision": 0,
-						"scale": 0
-					},
-					{
-						"name": "storingConditions.ru",
-						"type": "text",
-						"precision": 0,
-						"scale": 0
-					},
-					{
 						"name": "ingredients.de",
 						"type": "text",
 						"precision": 0,
@@ -1050,13 +1141,13 @@
 						"scale": 0
 					},
 					{
-						"name": "allergens.de",
+						"name": "allergens.ru",
 						"type": "text",
 						"precision": 0,
 						"scale": 0
 					},
 					{
-						"name": "allergens.ru",
+						"name": "allergens.de",
 						"type": "text",
 						"precision": 0,
 						"scale": 0
@@ -1074,26 +1165,8 @@
 				}
 			},
 			"dependsOn": [
-				"[concat(variables('factoryId'), '/linkedServices/AzurePostgreSql_Products')]"
+				"[concat(variables('factoryId'), '/linkedServices/iki_ProductsWh')]"
 			]
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/AzureDatabricks1')]",
-			"type": "Microsoft.DataFactory/factories/linkedServices",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"annotations": [],
-				"type": "AzureDatabricks",
-				"typeProperties": {
-					"domain": "https://adb-6231594754832173.13.azuredatabricks.net",
-					"accessToken": {
-						"type": "SecureString",
-						"value": "[parameters('AzureDatabricks1_accessToken')]"
-					},
-					"existingClusterId": "[parameters('AzureDatabricks1_properties_typeProperties_existingClusterId')]"
-				}
-			},
-			"dependsOn": []
 		},
 		{
 			"name": "[concat(parameters('factoryName'), '/AzurePostgreSql_Products')]",
@@ -1109,20 +1182,51 @@
 			"dependsOn": []
 		},
 		{
-			"name": "[concat(parameters('factoryName'), '/AzurePostgreSql_ProductsCLEAN')]",
+			"name": "[concat(parameters('factoryName'), '/Formating notebook')]",
+			"type": "Microsoft.DataFactory/factories/linkedServices",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"annotations": [],
+				"type": "AzureDatabricks",
+				"typeProperties": {
+					"domain": "https://adb-6231594754832173.13.azuredatabricks.net",
+					"accessToken": {
+						"type": "SecureString",
+						"value": "[parameters('Formating notebook_accessToken')]"
+					},
+					"existingClusterId": "[parameters('Formating notebook_properties_typeProperties_existingClusterId')]"
+				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/iki_ProductsWh')]",
 			"type": "Microsoft.DataFactory/factories/linkedServices",
 			"apiVersion": "2018-06-01",
 			"properties": {
 				"annotations": [],
 				"type": "AzurePostgreSql",
 				"typeProperties": {
-					"connectionString": "[parameters('AzurePostgreSql_ProductsCLEAN_connectionString')]"
+					"connectionString": "[parameters('iki_ProductsWh_connectionString')]"
 				}
 			},
 			"dependsOn": []
 		},
 		{
-			"name": "[concat(parameters('factoryName'), '/dataflow1')]",
+			"name": "[concat(parameters('factoryName'), '/iki_products')]",
+			"type": "Microsoft.DataFactory/factories/linkedServices",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"annotations": [],
+				"type": "AzurePostgreSql",
+				"typeProperties": {
+					"connectionString": "[parameters('iki_products_connectionString')]"
+				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/Move to nutrition')]",
 			"type": "Microsoft.DataFactory/factories/dataflows",
 			"apiVersion": "2018-06-01",
 			"properties": {
@@ -1131,58 +1235,28 @@
 					"sources": [
 						{
 							"dataset": {
-								"referenceName": "DestinationDataset_bzv",
+								"referenceName": "ikiData_fromIkiProductsWh",
 								"type": "DatasetReference"
 							},
-							"name": "cleanIkiData"
+							"name": "ikiData"
 						}
 					],
 					"sinks": [
 						{
 							"dataset": {
-								"referenceName": "DestinationDataset_bzv",
+								"referenceName": "nutrition",
 								"type": "DatasetReference"
 							},
-							"name": "Output"
+							"name": "nutrition"
 						}
 					],
 					"transformations": [
 						{
-							"name": "selectFirstFromDup"
+							"name": "derivedColumn1"
 						}
 					],
 					"scriptLines": [
 						"source(output(",
-						"          id as string,",
-						"          constraintcode as string,",
-						"          countryoforigin as string,",
-						"          supplier as string,",
-						"          producer as string,",
-						"          packaging as string,",
-						"          name as string,",
-						"          description as string,",
-						"          ingredients as string,",
-						"          storingconditions as string,",
-						"          allergens as string,",
-						"          energy as string,",
-						"          fat as double,",
-						"          salt as double,",
-						"          protein as double,",
-						"          carbs as double,",
-						"          satfat as double,",
-						"          sugar as double,",
-						"          pricesale as decimal(10,0),",
-						"          pricenosale as decimal(10,0)",
-						"     ),",
-						"     allowSchemaDrift: true,",
-						"     validateSchema: false,",
-						"     isolationLevel: 'READ_UNCOMMITTED',",
-						"     format: 'table') ~> cleanIkiData",
-						"cleanIkiData aggregate(groupBy(id),",
-						"     each(match(name != 'id'), $$ = last($$))) ~> selectFirstFromDup",
-						"selectFirstFromDup sink(allowSchemaDrift: false,",
-						"     validateSchema: false,",
-						"     input(",
 						"          id as string,",
 						"          constraintcode as string,",
 						"          countryoforigin as string,",
@@ -1204,34 +1278,48 @@
 						"          pricesale as decimal(0,0),",
 						"          pricenosale as decimal(0,0)",
 						"     ),",
+						"     allowSchemaDrift: true,",
+						"     validateSchema: false,",
+						"     isolationLevel: 'READ_UNCOMMITTED',",
+						"     format: 'table') ~> ikiData",
+						"ikiData derive(fat = toDouble(fat),",
+						"          salt = toDouble(salt),",
+						"          protein = toDouble(protein),",
+						"          carbs = toDouble(carbs),",
+						"          satfat = toDouble(satfat),",
+						"          sugar = toDouble(sugar)) ~> derivedColumn1",
+						"derivedColumn1 sink(allowSchemaDrift: true,",
+						"     validateSchema: false,",
+						"     input(",
+						"          id as integer,",
+						"          energy as string,",
+						"          fat as double,",
+						"          salt as double,",
+						"          protein as double,",
+						"          carbs as double,",
+						"          satfat as double,",
+						"          sugar as double",
+						"     ),",
 						"     deletable:false,",
 						"     insertable:true,",
 						"     updateable:false,",
 						"     upsertable:false,",
-						"     recreate:true,",
 						"     format: 'table',",
-						"     skipDuplicateMapOutputs: true,",
 						"     mapColumn(",
-						"          id,",
-						"          constraintcode,",
-						"          countryoforigin,",
-						"          supplier,",
-						"          producer,",
-						"          packaging,",
-						"          name,",
-						"          description,",
-						"          ingredients,",
-						"          storingconditions,",
-						"          allergens,",
 						"          energy,",
-						"          pricesale,",
-						"          pricenosale",
-						"     )) ~> Output"
+						"          fat,",
+						"          salt,",
+						"          protein,",
+						"          carbs,",
+						"          satfat,",
+						"          sugar",
+						"     )) ~> nutrition"
 					]
 				}
 			},
 			"dependsOn": [
-				"[concat(variables('factoryId'), '/datasets/DestinationDataset_bzv')]"
+				"[concat(variables('factoryId'), '/datasets/ikiData_fromIkiProductsWh')]",
+				"[concat(variables('factoryId'), '/datasets/nutrition')]"
 			]
 		}
 	]

@@ -7,21 +7,25 @@
 			"metadata": "Data Factory name",
 			"defaultValue": "LastMileFactory"
 		},
-		"AzureDatabricks1_accessToken": {
-			"type": "secureString",
-			"metadata": "Secure string for 'accessToken' of 'AzureDatabricks1'"
-		},
 		"AzurePostgreSql_Products_connectionString": {
 			"type": "secureString",
 			"metadata": "Secure string for 'connectionString' of 'AzurePostgreSql_Products'"
 		},
-		"AzurePostgreSql_ProductsCLEAN_connectionString": {
+		"Formating notebook_accessToken": {
 			"type": "secureString",
-			"metadata": "Secure string for 'connectionString' of 'AzurePostgreSql_ProductsCLEAN'"
+			"metadata": "Secure string for 'accessToken' of 'Formating notebook'"
 		},
-		"AzureDatabricks1_properties_typeProperties_existingClusterId": {
+		"iki_ProductsWh_connectionString": {
+			"type": "secureString",
+			"metadata": "Secure string for 'connectionString' of 'iki_ProductsWh'"
+		},
+		"iki_products_connectionString": {
+			"type": "secureString",
+			"metadata": "Secure string for 'connectionString' of 'iki_products'"
+		},
+		"Formating notebook_properties_typeProperties_existingClusterId": {
 			"type": "string",
-			"defaultValue": "0915-132239-zfcxzz06"
+			"defaultValue": "0914-123506-hbz51gu1"
 		},
 		"containerUri": {
 			"type": "string",
@@ -50,17 +54,20 @@
 					"factoryName": {
 						"value": "[parameters('factoryName')]"
 					},
-					"AzureDatabricks1_accessToken": {
-						"value": "[parameters('AzureDatabricks1_accessToken')]"
-					},
 					"AzurePostgreSql_Products_connectionString": {
 						"value": "[parameters('AzurePostgreSql_Products_connectionString')]"
 					},
-					"AzurePostgreSql_ProductsCLEAN_connectionString": {
-						"value": "[parameters('AzurePostgreSql_ProductsCLEAN_connectionString')]"
+					"Formating notebook_accessToken": {
+						"value": "[parameters('Formating notebook_accessToken')]"
 					},
-					"AzureDatabricks1_properties_typeProperties_existingClusterId": {
-						"value": "[parameters('AzureDatabricks1_properties_typeProperties_existingClusterId')]"
+					"iki_ProductsWh_connectionString": {
+						"value": "[parameters('iki_ProductsWh_connectionString')]"
+					},
+					"iki_products_connectionString": {
+						"value": "[parameters('iki_products_connectionString')]"
+					},
+					"Formating notebook_properties_typeProperties_existingClusterId": {
+						"value": "[parameters('Formating notebook_properties_typeProperties_existingClusterId')]"
 					}
 				}
 			},
