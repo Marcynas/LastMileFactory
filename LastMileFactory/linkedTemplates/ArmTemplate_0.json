@@ -957,7 +957,14 @@
 					{
 						"name": "Copy important columns",
 						"type": "Copy",
-						"dependsOn": [],
+						"dependsOn": [
+							{
+								"activity": "Collect data from api",
+								"dependencyConditions": [
+									"Succeeded"
+								]
+							}
+						],
 						"policy": {
 							"timeout": "0.12:00:00",
 							"retry": 0,
@@ -1302,6 +1309,27 @@
 						"userProperties": [],
 						"typeProperties": {
 							"notebookPath": "/IKIData/replace commas and remove letters"
+						},
+						"linkedServiceName": {
+							"referenceName": "Formating notebook",
+							"type": "LinkedServiceReference"
+						}
+					},
+					{
+						"name": "Collect data from api",
+						"description": "Collects data from IKI store and sends to \nrawIkiData",
+						"type": "DatabricksNotebook",
+						"dependsOn": [],
+						"policy": {
+							"timeout": "0.12:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"notebookPath": "/IKIData/main"
 						},
 						"linkedServiceName": {
 							"referenceName": "Formating notebook",
