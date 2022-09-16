@@ -361,7 +361,8 @@
 								"datasetParameters": {
 									"cleanIkiData": {},
 									"Output": {}
-								}
+								},
+								"linkedServiceParameters": {}
 							},
 							"staging": {},
 							"compute": {
@@ -1178,7 +1179,7 @@
 						"     isolationLevel: 'READ_UNCOMMITTED',",
 						"     format: 'table') ~> cleanIkiData",
 						"cleanIkiData aggregate(groupBy(id),",
-						"     each(match(name != \"id\"), $$ = last($$))) ~> selectFirstFromDup",
+						"     each(match(name != 'id'), $$ = last($$))) ~> selectFirstFromDup",
 						"selectFirstFromDup sink(allowSchemaDrift: false,",
 						"     validateSchema: false,",
 						"     input(",
@@ -1209,6 +1210,7 @@
 						"     upsertable:false,",
 						"     recreate:true,",
 						"     format: 'table',",
+						"     skipDuplicateMapOutputs: true,",
 						"     mapColumn(",
 						"          id,",
 						"          constraintcode,",
@@ -1222,12 +1224,6 @@
 						"          storingconditions,",
 						"          allergens,",
 						"          energy,",
-						"          fat,",
-						"          salt,",
-						"          protein,",
-						"          carbs,",
-						"          satfat,",
-						"          sugar,",
 						"          pricesale,",
 						"          pricenosale",
 						"     )) ~> Output"
