@@ -6,7 +6,7 @@
 		"type": "AzurePostgreSql",
 		"typeProperties": {
 			"connectionString": "host=products.postgres.database.azure.com;port=5432;database=iki_products;uid=MarTva;encryptionmethod=1;validateservercertificate=0",
-			"encryptedCredential": "ew0KICAiVmVyc2lvbiI6ICIyMDE3LTExLTMwIiwNCiAgIlByb3RlY3Rpb25Nb2RlIjogIktleSIsDQogICJTZWNyZXRDb250ZW50VHlwZSI6ICJQbGFpbnRleHQiLA0KICAiQ3JlZGVudGlhbElkIjogIkRBVEFGQUNUT1JZQDZDOUY4REY2LTYyRDctNDk4NS1BMzMzLTZDNjY4RkQ0M0EwNl8wYWY0MzRmNS03NzgzLTRmMTktYWZhYS01M2MwMGJiMGM2ZGQiDQp9"
+			"encryptedCredential": "ew0KICAiVmVyc2lvbiI6ICIyMDE3LTExLTMwIiwNCiAgIlByb3RlY3Rpb25Nb2RlIjogIktleSIsDQogICJTZWNyZXRDb250ZW50VHlwZSI6ICJQbGFpbnRleHQiLA0KICAiQ3JlZGVudGlhbElkIjogIkRBVEFGQUNUT1JZQDZDOUY4REY2LTYyRDctNDk4NS1BMzMzLTZDNjY4RkQ0M0EwNl9mZTlmYzQxMy0yNjk5LTQ1NWEtOTRkZS02Mzc5Y2E2YTY2ZTYiDQp9"
 		}
 	}
 }
