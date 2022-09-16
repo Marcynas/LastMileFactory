@@ -112,18 +112,6 @@
 							},
 							{
 								"source": {
-									"name": "photoUrl",
-									"type": "String",
-									"physicalType": "text"
-								},
-								"sink": {
-									"name": "photourl",
-									"type": "String",
-									"physicalType": "character varying"
-								}
-							},
-							{
-								"source": {
 									"name": "name.lt",
 									"type": "String",
 									"physicalType": "text"
@@ -202,8 +190,8 @@
 								},
 								"sink": {
 									"name": "fat",
-									"type": "Double",
-									"physicalType": "real"
+									"type": "String",
+									"physicalType": "character varying"
 								}
 							},
 							{
@@ -214,8 +202,8 @@
 								},
 								"sink": {
 									"name": "salt",
-									"type": "Double",
-									"physicalType": "real"
+									"type": "String",
+									"physicalType": "character varying"
 								}
 							},
 							{
@@ -226,8 +214,8 @@
 								},
 								"sink": {
 									"name": "protein",
-									"type": "Double",
-									"physicalType": "real"
+									"type": "String",
+									"physicalType": "character varying"
 								}
 							},
 							{
@@ -238,56 +226,36 @@
 								},
 								"sink": {
 									"name": "carbs",
-									"type": "Double",
-									"physicalType": "real"
+									"type": "String",
+									"physicalType": "character varying"
 								}
 							},
 							{
-								"source": {
-									"name": "nutrition.satFat",
-									"type": "String",
-									"physicalType": "text"
-								},
 								"sink": {
 									"name": "satfat",
-									"type": "Double",
-									"physicalType": "real"
-								}
-							},
-							{
-								"source": {
-									"name": "nutrition.sugar",
 									"type": "String",
-									"physicalType": "text"
-								},
-								"sink": {
-									"name": "shugar",
-									"type": "Double",
-									"physicalType": "real"
+									"physicalType": "character varying"
 								}
 							},
 							{
-								"source": {
-									"name": "prc.s",
-									"type": "Double",
-									"physicalType": "double precision"
-								},
+								"sink": {
+									"name": "sugar",
+									"type": "String",
+									"physicalType": "character varying"
+								}
+							},
+							{
 								"sink": {
 									"name": "pricesale",
-									"type": "Double",
-									"physicalType": "real"
+									"type": "Decimal",
+									"physicalType": "numeric"
 								}
 							},
 							{
-								"source": {
-									"name": "prc.p",
-									"type": "Double",
-									"physicalType": "double precision"
-								},
 								"sink": {
 									"name": "pricenosale",
-									"type": "Double",
-									"physicalType": "real"
+									"type": "Decimal",
+									"physicalType": "numeric"
 								}
 							}
 						],

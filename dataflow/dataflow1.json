@@ -1,0 +1,114 @@
+{
+	"name": "dataflow1",
+	"properties": {
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"dataset": {
+						"referenceName": "DestinationDataset_bzv",
+						"type": "DatasetReference"
+					},
+					"name": "cleanIkiData"
+				}
+			],
+			"sinks": [
+				{
+					"dataset": {
+						"referenceName": "DestinationDataset_bzv",
+						"type": "DatasetReference"
+					},
+					"name": "Output"
+				}
+			],
+			"transformations": [
+				{
+					"name": "selectFirstFromDup"
+				}
+			],
+			"scriptLines": [
+				"source(output(",
+				"          id as string,",
+				"          constraintcode as string,",
+				"          countryoforigin as string,",
+				"          supplier as string,",
+				"          producer as string,",
+				"          packaging as string,",
+				"          name as string,",
+				"          description as string,",
+				"          ingredients as string,",
+				"          storingconditions as string,",
+				"          allergens as string,",
+				"          energy as string,",
+				"          fat as string,",
+				"          salt as string,",
+				"          protein as string,",
+				"          carbs as string,",
+				"          satfat as string,",
+				"          sugar as string,",
+				"          pricesale as decimal(0,0),",
+				"          pricenosale as decimal(0,0)",
+				"     ),",
+				"     allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     isolationLevel: 'READ_UNCOMMITTED',",
+				"     format: 'table') ~> cleanIkiData",
+				"cleanIkiData aggregate(groupBy(id),",
+				"     each(match(name != \"id\"), $$ = last($$))) ~> selectFirstFromDup",
+				"selectFirstFromDup sink(allowSchemaDrift: false,",
+				"     validateSchema: false,",
+				"     input(",
+				"          id as string,",
+				"          constraintcode as string,",
+				"          countryoforigin as string,",
+				"          supplier as string,",
+				"          producer as string,",
+				"          packaging as string,",
+				"          name as string,",
+				"          description as string,",
+				"          ingredients as string,",
+				"          storingconditions as string,",
+				"          allergens as string,",
+				"          energy as string,",
+				"          fat as string,",
+				"          salt as string,",
+				"          protein as string,",
+				"          carbs as string,",
+				"          satfat as string,",
+				"          sugar as string,",
+				"          pricesale as decimal(0,0),",
+				"          pricenosale as decimal(0,0)",
+				"     ),",
+				"     deletable:false,",
+				"     insertable:true,",
+				"     updateable:false,",
+				"     upsertable:false,",
+				"     recreate:true,",
+				"     format: 'table',",
+				"     mapColumn(",
+				"          id,",
+				"          constraintcode,",
+				"          countryoforigin,",
+				"          supplier,",
+				"          producer,",
+				"          packaging,",
+				"          photourl,",
+				"          name,",
+				"          description,",
+				"          ingredients,",
+				"          storingconditions,",
+				"          allergens,",
+				"          energy,",
+				"          fat,",
+				"          salt,",
+				"          protein,",
+				"          carbs,",
+				"          satfat,",
+				"          shugar,",
+				"          pricesale,",
+				"          pricenosale",
+				"     )) ~> Output"
+			]
+		}
+	}
+}

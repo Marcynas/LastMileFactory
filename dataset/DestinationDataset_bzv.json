@@ -45,12 +45,6 @@
 				"scale": 0
 			},
 			{
-				"name": "photourl",
-				"type": "character varying",
-				"precision": 0,
-				"scale": 0
-			},
-			{
 				"name": "name",
 				"type": "character varying",
 				"precision": 0,
@@ -88,49 +82,49 @@
 			},
 			{
 				"name": "fat",
-				"type": "real",
+				"type": "character varying",
 				"precision": 0,
 				"scale": 0
 			},
 			{
 				"name": "salt",
-				"type": "real",
+				"type": "character varying",
 				"precision": 0,
 				"scale": 0
 			},
 			{
 				"name": "protein",
-				"type": "real",
+				"type": "character varying",
 				"precision": 0,
 				"scale": 0
 			},
 			{
 				"name": "carbs",
-				"type": "real",
+				"type": "character varying",
 				"precision": 0,
 				"scale": 0
 			},
 			{
 				"name": "satfat",
-				"type": "real",
+				"type": "character varying",
 				"precision": 0,
 				"scale": 0
 			},
 			{
-				"name": "shugar",
-				"type": "real",
+				"name": "sugar",
+				"type": "character varying",
 				"precision": 0,
 				"scale": 0
 			},
 			{
 				"name": "pricesale",
-				"type": "real",
+				"type": "numeric",
 				"precision": 0,
 				"scale": 0
 			},
 			{
 				"name": "pricenosale",
-				"type": "real",
+				"type": "numeric",
 				"precision": 0,
 				"scale": 0
 			}
