@@ -37,6 +37,260 @@
 					"validateDataConsistency": false,
 					"translator": {
 						"type": "TabularTranslator",
+						"mappings": [
+							{
+								"source": {
+									"name": "id",
+									"type": "String",
+									"physicalType": "text"
+								},
+								"sink": {
+									"name": "id",
+									"type": "String",
+									"physicalType": "character varying"
+								}
+							},
+							{
+								"source": {
+									"name": "constraintCode",
+									"type": "String",
+									"physicalType": "text"
+								},
+								"sink": {
+									"name": "constraintcode",
+									"type": "String",
+									"physicalType": "character varying"
+								}
+							},
+							{
+								"source": {
+									"name": "countryOfOrigin",
+									"type": "String",
+									"physicalType": "text"
+								},
+								"sink": {
+									"name": "countryoforigin",
+									"type": "String",
+									"physicalType": "character varying"
+								}
+							},
+							{
+								"source": {
+									"name": "supplier",
+									"type": "String",
+									"physicalType": "text"
+								},
+								"sink": {
+									"name": "supplier",
+									"type": "String",
+									"physicalType": "character varying"
+								}
+							},
+							{
+								"source": {
+									"name": "producer",
+									"type": "String",
+									"physicalType": "text"
+								},
+								"sink": {
+									"name": "producer",
+									"type": "String",
+									"physicalType": "character varying"
+								}
+							},
+							{
+								"source": {
+									"name": "packaging",
+									"type": "String",
+									"physicalType": "text"
+								},
+								"sink": {
+									"name": "packaging",
+									"type": "String",
+									"physicalType": "character varying"
+								}
+							},
+							{
+								"source": {
+									"name": "photoUrl",
+									"type": "String",
+									"physicalType": "text"
+								},
+								"sink": {
+									"name": "photourl",
+									"type": "String",
+									"physicalType": "character varying"
+								}
+							},
+							{
+								"source": {
+									"name": "name.lt",
+									"type": "String",
+									"physicalType": "text"
+								},
+								"sink": {
+									"name": "name",
+									"type": "String",
+									"physicalType": "character varying"
+								}
+							},
+							{
+								"source": {
+									"name": "description.lt",
+									"type": "String",
+									"physicalType": "text"
+								},
+								"sink": {
+									"name": "description",
+									"type": "String",
+									"physicalType": "character varying"
+								}
+							},
+							{
+								"source": {
+									"name": "ingredients.lt",
+									"type": "String",
+									"physicalType": "text"
+								},
+								"sink": {
+									"name": "ingredients",
+									"type": "String",
+									"physicalType": "character varying"
+								}
+							},
+							{
+								"source": {
+									"name": "storingConditions.lt",
+									"type": "String",
+									"physicalType": "text"
+								},
+								"sink": {
+									"name": "storingconditions",
+									"type": "String",
+									"physicalType": "character varying"
+								}
+							},
+							{
+								"source": {
+									"name": "allergens.lt",
+									"type": "String",
+									"physicalType": "text"
+								},
+								"sink": {
+									"name": "allergens",
+									"type": "String",
+									"physicalType": "character varying"
+								}
+							},
+							{
+								"source": {
+									"name": "nutrition.energy",
+									"type": "String",
+									"physicalType": "text"
+								},
+								"sink": {
+									"name": "energy",
+									"type": "String",
+									"physicalType": "character varying"
+								}
+							},
+							{
+								"source": {
+									"name": "nutrition.fat",
+									"type": "String",
+									"physicalType": "text"
+								},
+								"sink": {
+									"name": "fat",
+									"type": "Double",
+									"physicalType": "real"
+								}
+							},
+							{
+								"source": {
+									"name": "nutrition.salt",
+									"type": "String",
+									"physicalType": "text"
+								},
+								"sink": {
+									"name": "salt",
+									"type": "Double",
+									"physicalType": "real"
+								}
+							},
+							{
+								"source": {
+									"name": "nutrition.protein",
+									"type": "String",
+									"physicalType": "text"
+								},
+								"sink": {
+									"name": "protein",
+									"type": "Double",
+									"physicalType": "real"
+								}
+							},
+							{
+								"source": {
+									"name": "nutrition.carbs",
+									"type": "String",
+									"physicalType": "text"
+								},
+								"sink": {
+									"name": "carbs",
+									"type": "Double",
+									"physicalType": "real"
+								}
+							},
+							{
+								"source": {
+									"name": "nutrition.satFat",
+									"type": "String",
+									"physicalType": "text"
+								},
+								"sink": {
+									"name": "satfat",
+									"type": "Double",
+									"physicalType": "real"
+								}
+							},
+							{
+								"source": {
+									"name": "nutrition.sugar",
+									"type": "String",
+									"physicalType": "text"
+								},
+								"sink": {
+									"name": "shugar",
+									"type": "Double",
+									"physicalType": "real"
+								}
+							},
+							{
+								"source": {
+									"name": "prc.s",
+									"type": "Double",
+									"physicalType": "double precision"
+								},
+								"sink": {
+									"name": "pricesale",
+									"type": "Double",
+									"physicalType": "real"
+								}
+							},
+							{
+								"source": {
+									"name": "prc.p",
+									"type": "Double",
+									"physicalType": "double precision"
+								},
+								"sink": {
+									"name": "pricenosale",
+									"type": "Double",
+									"physicalType": "real"
+								}
+							}
+						],
 						"typeConversion": true,
 						"typeConversionSettings": {
 							"allowDataTruncation": true,
