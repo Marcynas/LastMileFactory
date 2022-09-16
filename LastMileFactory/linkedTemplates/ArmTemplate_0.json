@@ -1,0 +1,1242 @@
+{
+	"$schema": "http://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+	"contentVersion": "1.0.0.0",
+	"parameters": {
+		"factoryName": {
+			"type": "string",
+			"metadata": "Data Factory name",
+			"defaultValue": "LastMileFactory"
+		},
+		"AzureDatabricks1_accessToken": {
+			"type": "secureString",
+			"metadata": "Secure string for 'accessToken' of 'AzureDatabricks1'"
+		},
+		"AzurePostgreSql_Products_connectionString": {
+			"type": "secureString",
+			"metadata": "Secure string for 'connectionString' of 'AzurePostgreSql_Products'"
+		},
+		"AzurePostgreSql_ProductsCLEAN_connectionString": {
+			"type": "secureString",
+			"metadata": "Secure string for 'connectionString' of 'AzurePostgreSql_ProductsCLEAN'"
+		},
+		"AzureDatabricks1_properties_typeProperties_existingClusterId": {
+			"type": "string",
+			"defaultValue": "0915-132239-zfcxzz06"
+		}
+	},
+	"variables": {
+		"factoryId": "[concat('Microsoft.DataFactory/factories/', parameters('factoryName'))]"
+	},
+	"resources": [
+		{
+			"name": "[concat(parameters('factoryName'), '/AzureDatabricks1')]",
+			"type": "Microsoft.DataFactory/factories/linkedServices",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"annotations": [],
+				"type": "AzureDatabricks",
+				"typeProperties": {
+					"domain": "https://adb-6231594754832173.13.azuredatabricks.net",
+					"accessToken": {
+						"type": "SecureString",
+						"value": "[parameters('AzureDatabricks1_accessToken')]"
+					},
+					"existingClusterId": "[parameters('AzureDatabricks1_properties_typeProperties_existingClusterId')]"
+				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/AzurePostgreSql_Products')]",
+			"type": "Microsoft.DataFactory/factories/linkedServices",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"annotations": [],
+				"type": "AzurePostgreSql",
+				"typeProperties": {
+					"connectionString": "[parameters('AzurePostgreSql_Products_connectionString')]"
+				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/AzurePostgreSql_ProductsCLEAN')]",
+			"type": "Microsoft.DataFactory/factories/linkedServices",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"annotations": [],
+				"type": "AzurePostgreSql",
+				"typeProperties": {
+					"connectionString": "[parameters('AzurePostgreSql_ProductsCLEAN_connectionString')]"
+				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/DestinationDataset_bzv')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "AzurePostgreSql_Products",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "AzurePostgreSqlTable",
+				"schema": [
+					{
+						"name": "id",
+						"type": "character varying",
+						"precision": 0,
+						"scale": 0
+					},
+					{
+						"name": "constraintcode",
+						"type": "character varying",
+						"precision": 0,
+						"scale": 0
+					},
+					{
+						"name": "countryoforigin",
+						"type": "character varying",
+						"precision": 0,
+						"scale": 0
+					},
+					{
+						"name": "supplier",
+						"type": "character varying",
+						"precision": 0,
+						"scale": 0
+					},
+					{
+						"name": "producer",
+						"type": "character varying",
+						"precision": 0,
+						"scale": 0
+					},
+					{
+						"name": "packaging",
+						"type": "character varying",
+						"precision": 0,
+						"scale": 0
+					},
+					{
+						"name": "name",
+						"type": "character varying",
+						"precision": 0,
+						"scale": 0
+					},
+					{
+						"name": "description",
+						"type": "character varying",
+						"precision": 0,
+						"scale": 0
+					},
+					{
+						"name": "ingredients",
+						"type": "character varying",
+						"precision": 0,
+						"scale": 0
+					},
+					{
+						"name": "storingconditions",
+						"type": "character varying",
+						"precision": 0,
+						"scale": 0
+					},
+					{
+						"name": "allergens",
+						"type": "character varying",
+						"precision": 0,
+						"scale": 0
+					},
+					{
+						"name": "energy",
+						"type": "character varying",
+						"precision": 0,
+						"scale": 0
+					},
+					{
+						"name": "fat",
+						"type": "character varying",
+						"precision": 0,
+						"scale": 0
+					},
+					{
+						"name": "salt",
+						"type": "character varying",
+						"precision": 0,
+						"scale": 0
+					},
+					{
+						"name": "protein",
+						"type": "character varying",
+						"precision": 0,
+						"scale": 0
+					},
+					{
+						"name": "carbs",
+						"type": "character varying",
+						"precision": 0,
+						"scale": 0
+					},
+					{
+						"name": "satfat",
+						"type": "character varying",
+						"precision": 0,
+						"scale": 0
+					},
+					{
+						"name": "sugar",
+						"type": "character varying",
+						"precision": 0,
+						"scale": 0
+					},
+					{
+						"name": "pricesale",
+						"type": "numeric",
+						"precision": 0,
+						"scale": 0
+					},
+					{
+						"name": "pricenosale",
+						"type": "numeric",
+						"precision": 0,
+						"scale": 0
+					}
+				],
+				"typeProperties": {
+					"schema": "public",
+					"table": "cleanikidata"
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/AzurePostgreSql_Products')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/SourceDataset_bzv')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "AzurePostgreSql_Products",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "AzurePostgreSqlTable",
+				"schema": [
+					{
+						"name": "id",
+						"type": "text",
+						"precision": 0,
+						"scale": 0
+					},
+					{
+						"name": "objectID",
+						"type": "text",
+						"precision": 0,
+						"scale": 0
+					},
+					{
+						"name": "productId",
+						"type": "text",
+						"precision": 0,
+						"scale": 0
+					},
+					{
+						"name": "chainId",
+						"type": "text",
+						"precision": 0,
+						"scale": 0
+					},
+					{
+						"name": "categoryId",
+						"type": "text",
+						"precision": 0,
+						"scale": 0
+					},
+					{
+						"name": "productCode",
+						"type": "text",
+						"precision": 0,
+						"scale": 0
+					},
+					{
+						"name": "barcodes",
+						"type": "text",
+						"precision": 0,
+						"scale": 0
+					},
+					{
+						"name": "tags",
+						"type": "text",
+						"precision": 0,
+						"scale": 0
+					},
+					{
+						"name": "categoryCode",
+						"type": "text",
+						"precision": 0,
+						"scale": 0
+					},
+					{
+						"name": "constraintCode",
+						"type": "text",
+						"precision": 0,
+						"scale": 0
+					},
+					{
+						"name": "countryOfOrigin",
+						"type": "text",
+						"precision": 0,
+						"scale": 0
+					},
+					{
+						"name": "supplier",
+						"type": "text",
+						"precision": 0,
+						"scale": 0
+					},
+					{
+						"name": "producer",
+						"type": "text",
+						"precision": 0,
+						"scale": 0
+					},
+					{
+						"name": "packaging",
+						"type": "text",
+						"precision": 0,
+						"scale": 0
+					},
+					{
+						"name": "taxCount",
+						"type": "bigint",
+						"precision": 0,
+						"scale": 0
+					},
+					{
+						"name": "taxCode",
+						"type": "text",
+						"precision": 0,
+						"scale": 0
+					},
+					{
+						"name": "conversionMeasure",
+						"type": "text",
+						"precision": 0,
+						"scale": 0
+					},
+					{
+						"name": "unitOfMeasure",
+						"type": "text",
+						"precision": 0,
+						"scale": 0
+					},
+					{
+						"name": "maximumOrderQuantity",
+						"type": "bigint",
+						"precision": 0,
+						"scale": 0
+					},
+					{
+						"name": "standardOrderQuantity",
+						"type": "double precision",
+						"precision": 0,
+						"scale": 0
+					},
+					{
+						"name": "conversionValue",
+						"type": "double precision",
+						"precision": 0,
+						"scale": 0
+					},
+					{
+						"name": "conversionToKg",
+						"type": "double precision",
+						"precision": 0,
+						"scale": 0
+					},
+					{
+						"name": "isFixedWeight",
+						"type": "boolean",
+						"precision": 0,
+						"scale": 0
+					},
+					{
+						"name": "bestBeforeType",
+						"type": "bigint",
+						"precision": 0,
+						"scale": 0
+					},
+					{
+						"name": "dateCreated",
+						"type": "bigint",
+						"precision": 0,
+						"scale": 0
+					},
+					{
+						"name": "dateLastRefresh",
+						"type": "bigint",
+						"precision": 0,
+						"scale": 0
+					},
+					{
+						"name": "changedBy",
+						"type": "text",
+						"precision": 0,
+						"scale": 0
+					},
+					{
+						"name": "alternativeText",
+						"type": "text",
+						"precision": 0,
+						"scale": 0
+					},
+					{
+						"name": "isActive",
+						"type": "boolean",
+						"precision": 0,
+						"scale": 0
+					},
+					{
+						"name": "isApproved",
+						"type": "boolean",
+						"precision": 0,
+						"scale": 0
+					},
+					{
+						"name": "storeIds",
+						"type": "text",
+						"precision": 0,
+						"scale": 0
+					},
+					{
+						"name": "stockStores",
+						"type": "text",
+						"precision": 0,
+						"scale": 0
+					},
+					{
+						"name": "bannerIds",
+						"type": "text",
+						"precision": 0,
+						"scale": 0
+					},
+					{
+						"name": "photoUrl",
+						"type": "text",
+						"precision": 0,
+						"scale": 0
+					},
+					{
+						"name": "thumbUrl",
+						"type": "text",
+						"precision": 0,
+						"scale": 0
+					},
+					{
+						"name": "imageUrl",
+						"type": "text",
+						"precision": 0,
+						"scale": 0
+					},
+					{
+						"name": "karmaFrequency",
+						"type": "bigint",
+						"precision": 0,
+						"scale": 0
+					},
+					{
+						"name": "karmaSalesQty",
+						"type": "double precision",
+						"precision": 0,
+						"scale": 0
+					},
+					{
+						"name": "karmaSalesPrice",
+						"type": "double precision",
+						"precision": 0,
+						"scale": 0
+					},
+					{
+						"name": "karmaAdjustment",
+						"type": "bigint",
+						"precision": 0,
+						"scale": 0
+					},
+					{
+						"name": "w_updateTrigger",
+						"type": "bigint",
+						"precision": 0,
+						"scale": 0
+					},
+					{
+						"name": "unitWeight",
+						"type": "bigint",
+						"precision": 0,
+						"scale": 0
+					},
+					{
+						"name": "name.lt",
+						"type": "text",
+						"precision": 0,
+						"scale": 0
+					},
+					{
+						"name": "name.de",
+						"type": "text",
+						"precision": 0,
+						"scale": 0
+					},
+					{
+						"name": "name.en",
+						"type": "text",
+						"precision": 0,
+						"scale": 0
+					},
+					{
+						"name": "name.ru",
+						"type": "text",
+						"precision": 0,
+						"scale": 0
+					},
+					{
+						"name": "description.de",
+						"type": "text",
+						"precision": 0,
+						"scale": 0
+					},
+					{
+						"name": "description.en",
+						"type": "text",
+						"precision": 0,
+						"scale": 0
+					},
+					{
+						"name": "description.ru",
+						"type": "text",
+						"precision": 0,
+						"scale": 0
+					},
+					{
+						"name": "description.lt",
+						"type": "text",
+						"precision": 0,
+						"scale": 0
+					},
+					{
+						"name": "ingredients.en",
+						"type": "text",
+						"precision": 0,
+						"scale": 0
+					},
+					{
+						"name": "ingredients.lt",
+						"type": "text",
+						"precision": 0,
+						"scale": 0
+					},
+					{
+						"name": "storingConditions.en",
+						"type": "text",
+						"precision": 0,
+						"scale": 0
+					},
+					{
+						"name": "storingConditions.lt",
+						"type": "text",
+						"precision": 0,
+						"scale": 0
+					},
+					{
+						"name": "allergens.lt",
+						"type": "text",
+						"precision": 0,
+						"scale": 0
+					},
+					{
+						"name": "allergens.en",
+						"type": "text",
+						"precision": 0,
+						"scale": 0
+					},
+					{
+						"name": "nutrition.energy",
+						"type": "text",
+						"precision": 0,
+						"scale": 0
+					},
+					{
+						"name": "nutrition.fat",
+						"type": "text",
+						"precision": 0,
+						"scale": 0
+					},
+					{
+						"name": "nutrition.salt",
+						"type": "text",
+						"precision": 0,
+						"scale": 0
+					},
+					{
+						"name": "nutrition.protein",
+						"type": "text",
+						"precision": 0,
+						"scale": 0
+					},
+					{
+						"name": "nutrition.carbs",
+						"type": "text",
+						"precision": 0,
+						"scale": 0
+					},
+					{
+						"name": "nutrition.satFat",
+						"type": "text",
+						"precision": 0,
+						"scale": 0
+					},
+					{
+						"name": "nutrition.sugar",
+						"type": "text",
+						"precision": 0,
+						"scale": 0
+					},
+					{
+						"name": "prc.p",
+						"type": "double precision",
+						"precision": 0,
+						"scale": 0
+					},
+					{
+						"name": "prc.s",
+						"type": "double precision",
+						"precision": 0,
+						"scale": 0
+					},
+					{
+						"name": "prc.l",
+						"type": "double precision",
+						"precision": 0,
+						"scale": 0
+					},
+					{
+						"name": "prc.still",
+						"type": "double precision",
+						"precision": 0,
+						"scale": 0
+					},
+					{
+						"name": "prc.ltill",
+						"type": "double precision",
+						"precision": 0,
+						"scale": 0
+					},
+					{
+						"name": "prc.ap",
+						"type": "double precision",
+						"precision": 0,
+						"scale": 0
+					},
+					{
+						"name": "prc.lap",
+						"type": "double precision",
+						"precision": 0,
+						"scale": 0
+					},
+					{
+						"name": "prc.lstill",
+						"type": "bigint",
+						"precision": 0,
+						"scale": 0
+					},
+					{
+						"name": "dimensions.length",
+						"type": "bigint",
+						"precision": 0,
+						"scale": 0
+					},
+					{
+						"name": "dimensions.width",
+						"type": "bigint",
+						"precision": 0,
+						"scale": 0
+					},
+					{
+						"name": "dimensions.height",
+						"type": "bigint",
+						"precision": 0,
+						"scale": 0
+					},
+					{
+						"name": "karmaChain.adjustment",
+						"type": "bigint",
+						"precision": 0,
+						"scale": 0
+					},
+					{
+						"name": "karmaChain.salesFrequency",
+						"type": "bigint",
+						"precision": 0,
+						"scale": 0
+					},
+					{
+						"name": "karmaChain.salesPrice",
+						"type": "double precision",
+						"precision": 0,
+						"scale": 0
+					},
+					{
+						"name": "karmaChain.salesQty",
+						"type": "double precision",
+						"precision": 0,
+						"scale": 0
+					},
+					{
+						"name": "karmaChain.totalFrequency",
+						"type": "bigint",
+						"precision": 0,
+						"scale": 0
+					},
+					{
+						"name": "karmaChain.totalPrice",
+						"type": "double precision",
+						"precision": 0,
+						"scale": 0
+					},
+					{
+						"name": "karmaChain.totalQty",
+						"type": "double precision",
+						"precision": 0,
+						"scale": 0
+					},
+					{
+						"name": "storingConditions.de",
+						"type": "text",
+						"precision": 0,
+						"scale": 0
+					},
+					{
+						"name": "storingConditions.ru",
+						"type": "text",
+						"precision": 0,
+						"scale": 0
+					},
+					{
+						"name": "ingredients.de",
+						"type": "text",
+						"precision": 0,
+						"scale": 0
+					},
+					{
+						"name": "ingredients.ru",
+						"type": "text",
+						"precision": 0,
+						"scale": 0
+					},
+					{
+						"name": "allergens.de",
+						"type": "text",
+						"precision": 0,
+						"scale": 0
+					},
+					{
+						"name": "allergens.ru",
+						"type": "text",
+						"precision": 0,
+						"scale": 0
+					},
+					{
+						"name": "taxes.deposit",
+						"type": "double precision",
+						"precision": 0,
+						"scale": 0
+					}
+				],
+				"typeProperties": {
+					"schema": "public",
+					"table": "rawIkiData"
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/AzurePostgreSql_Products')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/dataflow1')]",
+			"type": "Microsoft.DataFactory/factories/dataflows",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"type": "MappingDataFlow",
+				"typeProperties": {
+					"sources": [
+						{
+							"dataset": {
+								"referenceName": "DestinationDataset_bzv",
+								"type": "DatasetReference"
+							},
+							"name": "cleanIkiData"
+						}
+					],
+					"sinks": [
+						{
+							"dataset": {
+								"referenceName": "DestinationDataset_bzv",
+								"type": "DatasetReference"
+							},
+							"name": "Output"
+						}
+					],
+					"transformations": [
+						{
+							"name": "selectFirstFromDup"
+						}
+					],
+					"scriptLines": [
+						"source(output(",
+						"          id as string,",
+						"          constraintcode as string,",
+						"          countryoforigin as string,",
+						"          supplier as string,",
+						"          producer as string,",
+						"          packaging as string,",
+						"          name as string,",
+						"          description as string,",
+						"          ingredients as string,",
+						"          storingconditions as string,",
+						"          allergens as string,",
+						"          energy as string,",
+						"          fat as double,",
+						"          salt as double,",
+						"          protein as double,",
+						"          carbs as double,",
+						"          satfat as double,",
+						"          sugar as double,",
+						"          pricesale as decimal(10,0),",
+						"          pricenosale as decimal(10,0)",
+						"     ),",
+						"     allowSchemaDrift: true,",
+						"     validateSchema: false,",
+						"     isolationLevel: 'READ_UNCOMMITTED',",
+						"     format: 'table') ~> cleanIkiData",
+						"cleanIkiData aggregate(groupBy(id),",
+						"     each(match(name != \"id\"), $$ = last($$))) ~> selectFirstFromDup",
+						"selectFirstFromDup sink(allowSchemaDrift: false,",
+						"     validateSchema: false,",
+						"     input(",
+						"          id as string,",
+						"          constraintcode as string,",
+						"          countryoforigin as string,",
+						"          supplier as string,",
+						"          producer as string,",
+						"          packaging as string,",
+						"          name as string,",
+						"          description as string,",
+						"          ingredients as string,",
+						"          storingconditions as string,",
+						"          allergens as string,",
+						"          energy as string,",
+						"          fat as string,",
+						"          salt as string,",
+						"          protein as string,",
+						"          carbs as string,",
+						"          satfat as string,",
+						"          sugar as string,",
+						"          pricesale as decimal(0,0),",
+						"          pricenosale as decimal(0,0)",
+						"     ),",
+						"     deletable:false,",
+						"     insertable:true,",
+						"     updateable:false,",
+						"     upsertable:false,",
+						"     recreate:true,",
+						"     format: 'table',",
+						"     mapColumn(",
+						"          id,",
+						"          constraintcode,",
+						"          countryoforigin,",
+						"          supplier,",
+						"          producer,",
+						"          packaging,",
+						"          name,",
+						"          description,",
+						"          ingredients,",
+						"          storingconditions,",
+						"          allergens,",
+						"          energy,",
+						"          fat,",
+						"          salt,",
+						"          protein,",
+						"          carbs,",
+						"          satfat,",
+						"          sugar,",
+						"          pricesale,",
+						"          pricenosale",
+						"     )) ~> Output"
+					]
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/datasets/DestinationDataset_bzv')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/CopyPipeline_bzv')]",
+			"type": "Microsoft.DataFactory/factories/pipelines",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"activities": [
+					{
+						"name": "WhToClean",
+						"description": "Move important stuff data to \"ikiProductsClean\" database",
+						"type": "Copy",
+						"dependsOn": [],
+						"policy": {
+							"timeout": "0.12:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [
+							{
+								"name": "Source",
+								"value": "public.rawIkiData"
+							},
+							{
+								"name": "Destination",
+								"value": "public.cleanIkiData"
+							}
+						],
+						"typeProperties": {
+							"source": {
+								"type": "AzurePostgreSqlSource"
+							},
+							"sink": {
+								"type": "AzurePostgreSQLSink",
+								"writeBatchSize": 1000000,
+								"writeBatchTimeout": "00:30:00",
+								"writeMethod": "CopyCommand"
+							},
+							"enableStaging": false,
+							"validateDataConsistency": false,
+							"translator": {
+								"type": "TabularTranslator",
+								"mappings": [
+									{
+										"source": {
+											"name": "id",
+											"type": "String",
+											"physicalType": "text"
+										},
+										"sink": {
+											"name": "id",
+											"type": "String",
+											"physicalType": "character varying"
+										}
+									},
+									{
+										"source": {
+											"name": "constraintCode",
+											"type": "String",
+											"physicalType": "text"
+										},
+										"sink": {
+											"name": "constraintcode",
+											"type": "String",
+											"physicalType": "character varying"
+										}
+									},
+									{
+										"source": {
+											"name": "countryOfOrigin",
+											"type": "String",
+											"physicalType": "text"
+										},
+										"sink": {
+											"name": "countryoforigin",
+											"type": "String",
+											"physicalType": "character varying"
+										}
+									},
+									{
+										"source": {
+											"name": "supplier",
+											"type": "String",
+											"physicalType": "text"
+										},
+										"sink": {
+											"name": "supplier",
+											"type": "String",
+											"physicalType": "character varying"
+										}
+									},
+									{
+										"source": {
+											"name": "producer",
+											"type": "String",
+											"physicalType": "text"
+										},
+										"sink": {
+											"name": "producer",
+											"type": "String",
+											"physicalType": "character varying"
+										}
+									},
+									{
+										"source": {
+											"name": "packaging",
+											"type": "String",
+											"physicalType": "text"
+										},
+										"sink": {
+											"name": "packaging",
+											"type": "String",
+											"physicalType": "character varying"
+										}
+									},
+									{
+										"source": {
+											"name": "name.lt",
+											"type": "String",
+											"physicalType": "text"
+										},
+										"sink": {
+											"name": "name",
+											"type": "String",
+											"physicalType": "character varying"
+										}
+									},
+									{
+										"source": {
+											"name": "description.lt",
+											"type": "String",
+											"physicalType": "text"
+										},
+										"sink": {
+											"name": "description",
+											"type": "String",
+											"physicalType": "character varying"
+										}
+									},
+									{
+										"source": {
+											"name": "ingredients.lt",
+											"type": "String",
+											"physicalType": "text"
+										},
+										"sink": {
+											"name": "ingredients",
+											"type": "String",
+											"physicalType": "character varying"
+										}
+									},
+									{
+										"source": {
+											"name": "storingConditions.lt",
+											"type": "String",
+											"physicalType": "text"
+										},
+										"sink": {
+											"name": "storingconditions",
+											"type": "String",
+											"physicalType": "character varying"
+										}
+									},
+									{
+										"source": {
+											"name": "allergens.lt",
+											"type": "String",
+											"physicalType": "text"
+										},
+										"sink": {
+											"name": "allergens",
+											"type": "String",
+											"physicalType": "character varying"
+										}
+									},
+									{
+										"source": {
+											"name": "nutrition.energy",
+											"type": "String",
+											"physicalType": "text"
+										},
+										"sink": {
+											"name": "energy",
+											"type": "String",
+											"physicalType": "character varying"
+										}
+									},
+									{
+										"source": {
+											"name": "nutrition.fat",
+											"type": "String",
+											"physicalType": "text"
+										},
+										"sink": {
+											"name": "fat",
+											"type": "String",
+											"physicalType": "character varying"
+										}
+									},
+									{
+										"source": {
+											"name": "nutrition.salt",
+											"type": "String",
+											"physicalType": "text"
+										},
+										"sink": {
+											"name": "salt",
+											"type": "String",
+											"physicalType": "character varying"
+										}
+									},
+									{
+										"source": {
+											"name": "nutrition.protein",
+											"type": "String",
+											"physicalType": "text"
+										},
+										"sink": {
+											"name": "protein",
+											"type": "String",
+											"physicalType": "character varying"
+										}
+									},
+									{
+										"source": {
+											"name": "nutrition.carbs",
+											"type": "String",
+											"physicalType": "text"
+										},
+										"sink": {
+											"name": "carbs",
+											"type": "String",
+											"physicalType": "character varying"
+										}
+									},
+									{
+										"source": {
+											"name": "nutrition.satFat",
+											"type": "String",
+											"physicalType": "text"
+										},
+										"sink": {
+											"name": "satfat",
+											"type": "String",
+											"physicalType": "character varying"
+										}
+									},
+									{
+										"source": {
+											"name": "nutrition.sugar",
+											"type": "String",
+											"physicalType": "text"
+										},
+										"sink": {
+											"name": "sugar",
+											"type": "String",
+											"physicalType": "character varying"
+										}
+									},
+									{
+										"source": {
+											"name": "prc.s",
+											"type": "Double",
+											"physicalType": "double precision"
+										},
+										"sink": {
+											"name": "pricesale",
+											"type": "Decimal",
+											"physicalType": "numeric"
+										}
+									},
+									{
+										"source": {
+											"name": "prc.p",
+											"type": "Double",
+											"physicalType": "double precision"
+										},
+										"sink": {
+											"name": "pricenosale",
+											"type": "Decimal",
+											"physicalType": "numeric"
+										}
+									}
+								],
+								"typeConversion": true,
+								"typeConversionSettings": {
+									"allowDataTruncation": true,
+									"treatBooleanAsNumber": false
+								}
+							}
+						},
+						"inputs": [
+							{
+								"referenceName": "SourceDataset_bzv",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						],
+						"outputs": [
+							{
+								"referenceName": "DestinationDataset_bzv",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						]
+					},
+					{
+						"name": "dataflow1",
+						"type": "ExecuteDataFlow",
+						"dependsOn": [
+							{
+								"activity": "WhToClean",
+								"dependencyConditions": [
+									"Succeeded"
+								]
+							}
+						],
+						"policy": {
+							"timeout": "0.12:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"dataflow": {
+								"referenceName": "dataflow1",
+								"type": "DataFlowReference",
+								"parameters": {},
+								"datasetParameters": {
+									"cleanIkiData": {},
+									"Output": {}
+								}
+							},
+							"staging": {},
+							"compute": {
+								"coreCount": 8,
+								"computeType": "General"
+							},
+							"traceLevel": "Fine"
+						}
+					}
+				],
+				"policy": {
+					"elapsedTimeMetric": {},
+					"cancelAfter": {}
+				},
+				"annotations": []
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/datasets/SourceDataset_bzv')]",
+				"[concat(variables('factoryId'), '/datasets/DestinationDataset_bzv')]",
+				"[concat(variables('factoryId'), '/dataflows/dataflow1')]"
+			]
+		}
+	]
+}
