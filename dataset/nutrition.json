@@ -1,0 +1,59 @@
+{
+	"name": "nutrition",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "iki_products",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "AzurePostgreSqlTable",
+		"schema": [
+			{
+				"name": "id",
+				"type": "integer",
+				"precision": 0,
+				"scale": 0
+			},
+			{
+				"name": "energy",
+				"type": "character varying",
+				"precision": 0,
+				"scale": 0
+			},
+			{
+				"name": "fat",
+				"type": "double precision",
+				"precision": 0,
+				"scale": 0
+			},
+			{
+				"name": "salt",
+				"type": "double precision",
+				"precision": 0,
+				"scale": 0
+			},
+			{
+				"name": "protein",
+				"type": "double precision",
+				"precision": 0,
+				"scale": 0
+			},
+			{
+				"name": "carbs",
+				"type": "double precision",
+				"precision": 0,
+				"scale": 0
+			},
+			{
+				"name": "satfat",
+				"type": "double precision",
+				"precision": 0,
+				"scale": 0
+			}
+		],
+		"typeProperties": {
+			"schema": "public",
+			"table": "nutrition"
+		}
+	}
+}

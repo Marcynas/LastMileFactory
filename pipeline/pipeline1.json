@@ -28,6 +28,248 @@
 					"enableStaging": false,
 					"translator": {
 						"type": "TabularTranslator",
+						"mappings": [
+							{
+								"source": {
+									"name": "id",
+									"type": "String",
+									"physicalType": "text"
+								},
+								"sink": {
+									"name": "id",
+									"type": "String",
+									"physicalType": "character varying"
+								}
+							},
+							{
+								"source": {
+									"name": "constraintCode",
+									"type": "String",
+									"physicalType": "text"
+								},
+								"sink": {
+									"name": "constraintcode",
+									"type": "String",
+									"physicalType": "character varying"
+								}
+							},
+							{
+								"source": {
+									"name": "countryOfOrigin",
+									"type": "String",
+									"physicalType": "text"
+								},
+								"sink": {
+									"name": "countryoforigin",
+									"type": "String",
+									"physicalType": "character varying"
+								}
+							},
+							{
+								"source": {
+									"name": "supplier",
+									"type": "String",
+									"physicalType": "text"
+								},
+								"sink": {
+									"name": "supplier",
+									"type": "String",
+									"physicalType": "character varying"
+								}
+							},
+							{
+								"source": {
+									"name": "producer",
+									"type": "String",
+									"physicalType": "text"
+								},
+								"sink": {
+									"name": "producer",
+									"type": "String",
+									"physicalType": "character varying"
+								}
+							},
+							{
+								"source": {
+									"name": "packaging",
+									"type": "String",
+									"physicalType": "text"
+								},
+								"sink": {
+									"name": "packaging",
+									"type": "String",
+									"physicalType": "character varying"
+								}
+							},
+							{
+								"source": {
+									"name": "name.lt",
+									"type": "String",
+									"physicalType": "text"
+								},
+								"sink": {
+									"name": "name",
+									"type": "String",
+									"physicalType": "character varying"
+								}
+							},
+							{
+								"source": {
+									"name": "description.lt",
+									"type": "String",
+									"physicalType": "text"
+								},
+								"sink": {
+									"name": "description",
+									"type": "String",
+									"physicalType": "character varying"
+								}
+							},
+							{
+								"source": {
+									"name": "ingredients.lt",
+									"type": "String",
+									"physicalType": "text"
+								},
+								"sink": {
+									"name": "ingredients",
+									"type": "String",
+									"physicalType": "character varying"
+								}
+							},
+							{
+								"source": {
+									"name": "storingConditions.lt",
+									"type": "String",
+									"physicalType": "text"
+								},
+								"sink": {
+									"name": "storingconditions",
+									"type": "String",
+									"physicalType": "character varying"
+								}
+							},
+							{
+								"source": {
+									"name": "allergens.lt",
+									"type": "String",
+									"physicalType": "text"
+								},
+								"sink": {
+									"name": "allergens",
+									"type": "String",
+									"physicalType": "character varying"
+								}
+							},
+							{
+								"source": {
+									"name": "nutrition.energy",
+									"type": "String",
+									"physicalType": "text"
+								},
+								"sink": {
+									"name": "energy",
+									"type": "String",
+									"physicalType": "character varying"
+								}
+							},
+							{
+								"source": {
+									"name": "nutrition.fat",
+									"type": "String",
+									"physicalType": "text"
+								},
+								"sink": {
+									"name": "fat",
+									"type": "String",
+									"physicalType": "character varying"
+								}
+							},
+							{
+								"source": {
+									"name": "nutrition.salt",
+									"type": "String",
+									"physicalType": "text"
+								},
+								"sink": {
+									"name": "salt",
+									"type": "String",
+									"physicalType": "character varying"
+								}
+							},
+							{
+								"source": {
+									"name": "nutrition.protein",
+									"type": "String",
+									"physicalType": "text"
+								},
+								"sink": {
+									"name": "protein",
+									"type": "String",
+									"physicalType": "character varying"
+								}
+							},
+							{
+								"source": {
+									"name": "nutrition.carbs",
+									"type": "String",
+									"physicalType": "text"
+								},
+								"sink": {
+									"name": "carbs",
+									"type": "String",
+									"physicalType": "character varying"
+								}
+							},
+							{
+								"source": {
+									"name": "nutrition.satFat",
+									"type": "String",
+									"physicalType": "text"
+								},
+								"sink": {
+									"name": "satfat",
+									"type": "String",
+									"physicalType": "character varying"
+								}
+							},
+							{
+								"source": {
+									"name": "nutrition.sugar",
+									"type": "String",
+									"physicalType": "text"
+								},
+								"sink": {
+									"name": "sugar",
+									"type": "String",
+									"physicalType": "character varying"
+								}
+							},
+							{
+								"source": {
+									"name": "prc.s",
+									"type": "Double",
+									"physicalType": "double precision"
+								},
+								"sink": {
+									"name": "pricesale",
+									"type": "Decimal",
+									"physicalType": "numeric"
+								}
+							},
+							{
+								"source": {
+									"name": "prc.p",
+									"type": "Double",
+									"physicalType": "double precision"
+								},
+								"sink": {
+									"name": "pricenosale",
+									"type": "Decimal",
+									"physicalType": "numeric"
+								}
+							}
+						],
 						"typeConversion": true,
 						"typeConversionSettings": {
 							"allowDataTruncation": true,
@@ -47,6 +289,37 @@
 						"type": "DatasetReference"
 					}
 				]
+			},
+			{
+				"name": "Move to nutrition",
+				"type": "ExecuteDataFlow",
+				"dependsOn": [
+					{
+						"activity": "Copy important columns",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"dataflow": {
+						"referenceName": "Move to nutrition",
+						"type": "DataFlowReference"
+					},
+					"compute": {
+						"coreCount": 8,
+						"computeType": "General"
+					},
+					"traceLevel": "Fine"
+				}
 			}
 		],
 		"annotations": []

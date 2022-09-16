@@ -1,0 +1,84 @@
+{
+	"name": "Move to nutrition",
+	"properties": {
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"dataset": {
+						"referenceName": "ikiData_fromIkiProductsWh",
+						"type": "DatasetReference"
+					},
+					"name": "ikiData"
+				}
+			],
+			"sinks": [
+				{
+					"dataset": {
+						"referenceName": "nutrition",
+						"type": "DatasetReference"
+					},
+					"name": "nutrition"
+				}
+			],
+			"transformations": [
+				{
+					"name": "ConvertedNutrition"
+				}
+			],
+			"scriptLines": [
+				"source(output(",
+				"          id as string,",
+				"          constraintcode as string,",
+				"          countryoforigin as string,",
+				"          supplier as string,",
+				"          producer as string,",
+				"          packaging as string,",
+				"          name as string,",
+				"          description as string,",
+				"          ingredients as string,",
+				"          storingconditions as string,",
+				"          allergens as string,",
+				"          energy as string,",
+				"          fat as string,",
+				"          salt as string,",
+				"          protein as string,",
+				"          carbs as string,",
+				"          satfat as string,",
+				"          sugar as string,",
+				"          pricesale as decimal(0,0),",
+				"          pricenosale as decimal(0,0)",
+				"     ),",
+				"     allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     isolationLevel: 'READ_UNCOMMITTED',",
+				"     format: 'table') ~> ikiData",
+				"ikiData parse(fat = toDouble(trim(fat, ' g')),",
+				"          salt = toDouble(trim(salt, ' g')),",
+				"          protein = toDouble(trim(protein, ' g')),",
+				"          carbs = toDouble(trim(carbs, ' g')),",
+				"          satfat = toDouble(trim(satfat, ' g')),",
+				"     format: 'json',",
+				"     documentForm: 'singleDocument') ~> ConvertedNutrition",
+				"ConvertedNutrition sink(allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     input(",
+				"          id as integer,",
+				"          energy as string,",
+				"          fat as double,",
+				"          salt as double,",
+				"          protein as double,",
+				"          carbs as double,",
+				"          satfat as double",
+				"     ),",
+				"     deletable:false,",
+				"     insertable:true,",
+				"     updateable:false,",
+				"     upsertable:false,",
+				"     format: 'table',",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true) ~> nutrition"
+			]
+		}
+	}
+}
