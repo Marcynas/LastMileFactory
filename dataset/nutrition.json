@@ -58,8 +58,8 @@
 			}
 		],
 		"typeProperties": {
-			"schema": "public",
-			"table": "nutrition"
+			"schema": "Iki",
+			"table": "nutritions"
 		}
 	}
 }
