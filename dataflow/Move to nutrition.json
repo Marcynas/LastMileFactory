@@ -69,7 +69,7 @@
 				"          carbs = toDouble(carbs),",
 				"          satfat = toDouble(satfat),",
 				"          sugar = toDouble(sugar)) ~> ConvertingNutrition",
-				"ikiData derive(pricesale = toDouble(price),",
+				"ikiData derive(pricesale = toDouble(pricesale),",
 				"          pricenosale = toDouble(pricenosale)) ~> ConvertingPrices",
 				"ConvertingNutrition sink(allowSchemaDrift: true,",
 				"     validateSchema: false,",
