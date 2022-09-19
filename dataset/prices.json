@@ -1,0 +1,35 @@
+{
+	"name": "prices",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "iki_products",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "AzurePostgreSqlTable",
+		"schema": [
+			{
+				"name": "id",
+				"type": "integer",
+				"precision": 0,
+				"scale": 0
+			},
+			{
+				"name": "price",
+				"type": "double precision",
+				"precision": 0,
+				"scale": 0
+			},
+			{
+				"name": "priceonsale",
+				"type": "double precision",
+				"precision": 0,
+				"scale": 0
+			}
+		],
+		"typeProperties": {
+			"schema": "Iki",
+			"table": "prices"
+		}
+	}
+}

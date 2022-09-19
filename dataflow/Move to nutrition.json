@@ -19,11 +19,21 @@
 						"type": "DatasetReference"
 					},
 					"name": "nutrition"
+				},
+				{
+					"dataset": {
+						"referenceName": "prices",
+						"type": "DatasetReference"
+					},
+					"name": "prices"
 				}
 			],
 			"transformations": [
 				{
-					"name": "derivedColumn1"
+					"name": "ConvertingNutrition"
+				},
+				{
+					"name": "ConvertingPrices"
 				}
 			],
 			"scriptLines": [
@@ -58,8 +68,10 @@
 				"          protein = toDouble(protein),",
 				"          carbs = toDouble(carbs),",
 				"          satfat = toDouble(satfat),",
-				"          sugar = toDouble(sugar)) ~> derivedColumn1",
-				"derivedColumn1 sink(allowSchemaDrift: true,",
+				"          sugar = toDouble(sugar)) ~> ConvertingNutrition",
+				"ikiData derive(pricesale = toDouble(price),",
+				"          pricenosale = toDouble(pricenosale)) ~> ConvertingPrices",
+				"ConvertingNutrition sink(allowSchemaDrift: true,",
 				"     validateSchema: false,",
 				"     input(",
 				"          id as integer,",
@@ -84,7 +96,25 @@
 				"          carbs,",
 				"          satfat,",
 				"          sugar",
-				"     )) ~> nutrition"
+				"     )) ~> nutrition",
+				"ConvertingPrices sink(allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     input(",
+				"          id as integer,",
+				"          price as double,",
+				"          priceonsale as double",
+				"     ),",
+				"     deletable:false,",
+				"     insertable:true,",
+				"     updateable:false,",
+				"     upsertable:false,",
+				"     format: 'table',",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true,",
+				"     mapColumn(",
+				"          price = pricenosale,",
+				"          priceonsale = pricesale",
+				"     )) ~> prices"
 			]
 		}
 	}

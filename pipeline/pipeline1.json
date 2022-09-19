@@ -3,7 +3,7 @@
 	"properties": {
 		"activities": [
 			{
-				"name": "Copy important columns",
+				"name": "Move only important columns",
 				"type": "Copy",
 				"dependsOn": [
 					{
@@ -302,7 +302,7 @@
 				"type": "ExecuteDataFlow",
 				"dependsOn": [
 					{
-						"activity": "formating nutriens notebook",
+						"activity": "Formating nutriens notebook",
 						"dependencyConditions": [
 							"Succeeded"
 						]
@@ -329,11 +329,12 @@
 				}
 			},
 			{
-				"name": "formating nutriens notebook",
+				"name": "Formating nutriens notebook",
+				"description": "Removing g's and kg's replacing , with .",
 				"type": "DatabricksNotebook",
 				"dependsOn": [
 					{
-						"activity": "Copy important columns",
+						"activity": "Move only important columns",
 						"dependencyConditions": [
 							"Succeeded"
 						]
