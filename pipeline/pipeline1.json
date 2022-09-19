@@ -318,7 +318,7 @@
 				"userProperties": [],
 				"typeProperties": {
 					"dataflow": {
-						"referenceName": "Move to nutrition",
+						"referenceName": "Move to tables",
 						"type": "DataFlowReference"
 					},
 					"compute": {
