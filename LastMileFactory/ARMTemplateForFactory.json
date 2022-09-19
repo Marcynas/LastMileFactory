@@ -33,13 +33,13 @@
 	},
 	"resources": [
 		{
-			"name": "[concat(parameters('factoryName'), '/pipeline1')]",
+			"name": "[concat(parameters('factoryName'), '/ETL')]",
 			"type": "Microsoft.DataFactory/factories/pipelines",
 			"apiVersion": "2018-06-01",
 			"properties": {
 				"activities": [
 					{
-						"name": "Copy important columns",
+						"name": "Move only important columns",
 						"type": "Copy",
 						"dependsOn": [
 							{
@@ -336,11 +336,11 @@
 						]
 					},
 					{
-						"name": "Move to nutrition",
+						"name": "Move to tables",
 						"type": "ExecuteDataFlow",
 						"dependsOn": [
 							{
-								"activity": "formating nutriens notebook",
+								"activity": "Formating nutriens notebook",
 								"dependencyConditions": [
 									"Succeeded"
 								]
@@ -356,12 +356,13 @@
 						"userProperties": [],
 						"typeProperties": {
 							"dataflow": {
-								"referenceName": "Move to nutrition",
+								"referenceName": "Move to tables",
 								"type": "DataFlowReference",
 								"parameters": {},
 								"datasetParameters": {
 									"ikiData": {},
-									"nutrition": {}
+									"nutrition": {},
+									"prices": {}
 								}
 							},
 							"staging": {},
@@ -373,11 +374,12 @@
 						}
 					},
 					{
-						"name": "formating nutriens notebook",
+						"name": "Formating nutriens notebook",
+						"description": "Removing g's and kg's replacing , with .",
 						"type": "DatabricksNotebook",
 						"dependsOn": [
 							{
-								"activity": "Copy important columns",
+								"activity": "Move only important columns",
 								"dependencyConditions": [
 									"Succeeded"
 								]
@@ -430,7 +432,7 @@
 			"dependsOn": [
 				"[concat(variables('factoryId'), '/datasets/rawIkiData_fromIkiProductsWH')]",
 				"[concat(variables('factoryId'), '/datasets/ikiData_fromIkiProductsWh')]",
-				"[concat(variables('factoryId'), '/dataflows/Move to nutrition')]",
+				"[concat(variables('factoryId'), '/dataflows/Move to tables')]",
 				"[concat(variables('factoryId'), '/linkedServices/Formating notebook')]"
 			]
 		},
@@ -638,8 +640,8 @@
 					}
 				],
 				"typeProperties": {
-					"schema": "public",
-					"table": "nutrition"
+					"schema": "Iki",
+					"table": "nutritions"
 				}
 			},
 			"dependsOn": [
@@ -1254,7 +1256,7 @@
 			"dependsOn": []
 		},
 		{
-			"name": "[concat(parameters('factoryName'), '/Move to nutrition')]",
+			"name": "[concat(parameters('factoryName'), '/Move to tables')]",
 			"type": "Microsoft.DataFactory/factories/dataflows",
 			"apiVersion": "2018-06-01",
 			"properties": {
@@ -1276,11 +1278,21 @@
 								"type": "DatasetReference"
 							},
 							"name": "nutrition"
+						},
+						{
+							"dataset": {
+								"referenceName": "prices",
+								"type": "DatasetReference"
+							},
+							"name": "prices"
 						}
 					],
 					"transformations": [
 						{
-							"name": "derivedColumn1"
+							"name": "ConvertingNutrition"
+						},
+						{
+							"name": "ConvertingPrices"
 						}
 					],
 					"scriptLines": [
@@ -1315,8 +1327,10 @@
 						"          protein = toDouble(protein),",
 						"          carbs = toDouble(carbs),",
 						"          satfat = toDouble(satfat),",
-						"          sugar = toDouble(sugar)) ~> derivedColumn1",
-						"derivedColumn1 sink(allowSchemaDrift: true,",
+						"          sugar = toDouble(sugar)) ~> ConvertingNutrition",
+						"ikiData derive(pricesale = toDouble(pricesale),",
+						"          pricenosale = toDouble(pricenosale)) ~> ConvertingPrices",
+						"ConvertingNutrition sink(allowSchemaDrift: true,",
 						"     validateSchema: false,",
 						"     input(",
 						"          id as integer,",
@@ -1341,13 +1355,72 @@
 						"          carbs,",
 						"          satfat,",
 						"          sugar",
-						"     )) ~> nutrition"
+						"     )) ~> nutrition",
+						"ConvertingPrices sink(allowSchemaDrift: true,",
+						"     validateSchema: false,",
+						"     input(",
+						"          id as integer,",
+						"          price as double,",
+						"          priceonsale as double",
+						"     ),",
+						"     deletable:false,",
+						"     insertable:true,",
+						"     updateable:false,",
+						"     upsertable:false,",
+						"     format: 'table',",
+						"     skipDuplicateMapInputs: true,",
+						"     skipDuplicateMapOutputs: true,",
+						"     mapColumn(",
+						"          price = pricenosale,",
+						"          priceonsale = pricesale",
+						"     )) ~> prices"
 					]
 				}
 			},
 			"dependsOn": [
 				"[concat(variables('factoryId'), '/datasets/ikiData_fromIkiProductsWh')]",
-				"[concat(variables('factoryId'), '/datasets/nutrition')]"
+				"[concat(variables('factoryId'), '/datasets/nutrition')]",
+				"[concat(variables('factoryId'), '/datasets/prices')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/prices')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "iki_products",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "AzurePostgreSqlTable",
+				"schema": [
+					{
+						"name": "id",
+						"type": "integer",
+						"precision": 0,
+						"scale": 0
+					},
+					{
+						"name": "price",
+						"type": "double precision",
+						"precision": 0,
+						"scale": 0
+					},
+					{
+						"name": "priceonsale",
+						"type": "double precision",
+						"precision": 0,
+						"scale": 0
+					}
+				],
+				"typeProperties": {
+					"schema": "Iki",
+					"table": "prices"
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/iki_products')]"
 			]
 		}
 	]
