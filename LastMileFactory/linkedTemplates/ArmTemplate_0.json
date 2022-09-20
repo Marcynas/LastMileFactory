@@ -1899,18 +1899,6 @@
 									},
 									{
 										"source": {
-											"name": "description",
-											"type": "String",
-											"physicalType": "text"
-										},
-										"sink": {
-											"name": "description",
-											"type": "Int32",
-											"physicalType": "integer"
-										}
-									},
-									{
-										"source": {
 											"name": "constraintcode",
 											"type": "String",
 											"physicalType": "text"
