@@ -674,34 +674,6 @@
 								}
 							},
 							{
-								"sink": {
-									"name": "prices",
-									"type": "Int32",
-									"physicalType": "integer"
-								}
-							},
-							{
-								"sink": {
-									"name": "producers",
-									"type": "Int32",
-									"physicalType": "integer"
-								}
-							},
-							{
-								"sink": {
-									"name": "nutritions",
-									"type": "Int32",
-									"physicalType": "integer"
-								}
-							},
-							{
-								"sink": {
-									"name": "country",
-									"type": "Int32",
-									"physicalType": "integer"
-								}
-							},
-							{
 								"source": {
 									"name": "constraintcode",
 									"type": "String",
