@@ -717,6 +717,61 @@
 						"type": "DatasetReference"
 					}
 				]
+			},
+			{
+				"name": "Truncate raw data",
+				"description": "just because i can",
+				"type": "Copy",
+				"dependsOn": [
+					{
+						"activity": "Copy important columns",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"source": {
+						"type": "AzurePostgreSqlSource",
+						"query": "truncate table \"iki_productsWh\".public.\"rawIkiData\"",
+						"partitionOption": "None"
+					},
+					"sink": {
+						"type": "AzurePostgreSQLSink",
+						"writeBatchSize": 1000000,
+						"writeBatchTimeout": "00:30:00",
+						"writeMethod": "CopyCommand"
+					},
+					"enableStaging": false,
+					"translator": {
+						"type": "TabularTranslator",
+						"typeConversion": true,
+						"typeConversionSettings": {
+							"allowDataTruncation": true,
+							"treatBooleanAsNumber": false
+						}
+					}
+				},
+				"inputs": [
+					{
+						"referenceName": "rawIkiData_fromIkiProductsWH",
+						"type": "DatasetReference"
+					}
+				],
+				"outputs": [
+					{
+						"referenceName": "rawIkiData_fromIkiProductsWH",
+						"type": "DatasetReference"
+					}
+				]
 			}
 		],
 		"annotations": []
