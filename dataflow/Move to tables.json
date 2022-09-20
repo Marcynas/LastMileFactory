@@ -25,15 +25,12 @@
 						"referenceName": "prices",
 						"type": "DatasetReference"
 					},
-					"name": "prices"
+					"name": "sink1"
 				}
 			],
 			"transformations": [
 				{
-					"name": "ConvertingNutrition"
-				},
-				{
-					"name": "ConvertingPrices"
+					"name": "ConvertingToDoubles"
 				}
 			],
 			"scriptLines": [
@@ -69,10 +66,10 @@
 				"          protein = toDouble(protein),",
 				"          carbs = toDouble(carbs),",
 				"          satfat = toDouble(satfat),",
-				"          sugar = toDouble(sugar)) ~> ConvertingNutrition",
-				"ikiData derive(pricesale = toDouble(pricesale),",
-				"          pricenosale = toDouble(pricenosale)) ~> ConvertingPrices",
-				"ConvertingNutrition sink(allowSchemaDrift: true,",
+				"          sugar = toDouble(sugar),",
+				"          pricesale = toDouble(pricesale),",
+				"          pricenosale = toDouble(pricenosale)) ~> ConvertingToDoubles",
+				"ConvertingToDoubles sink(allowSchemaDrift: true,",
 				"     validateSchema: false,",
 				"     input(",
 				"          id as integer,",
@@ -98,7 +95,7 @@
 				"          satfat,",
 				"          sugar",
 				"     )) ~> nutrition",
-				"ConvertingPrices sink(allowSchemaDrift: true,",
+				"ConvertingToDoubles sink(allowSchemaDrift: true,",
 				"     validateSchema: false,",
 				"     input(",
 				"          id as integer,",
@@ -110,12 +107,10 @@
 				"     updateable:false,",
 				"     upsertable:false,",
 				"     format: 'table',",
-				"     skipDuplicateMapInputs: true,",
-				"     skipDuplicateMapOutputs: true,",
 				"     mapColumn(",
 				"          price = pricenosale,",
 				"          priceonsale = pricesale",
-				"     )) ~> prices"
+				"     )) ~> sink1"
 			]
 		}
 	}
