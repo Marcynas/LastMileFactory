@@ -39,7 +39,7 @@
 			"properties": {
 				"activities": [
 					{
-						"name": "Move only important columns",
+						"name": "Copy important columns",
 						"type": "Copy",
 						"dependsOn": [
 							{
@@ -336,7 +336,8 @@
 						]
 					},
 					{
-						"name": "Move to tables",
+						"name": "Number values to tables",
+						"description": "Nutrition and prices",
 						"type": "ExecuteDataFlow",
 						"dependsOn": [
 							{
@@ -362,7 +363,7 @@
 								"datasetParameters": {
 									"ikiData": {},
 									"nutrition": {},
-									"prices": {}
+									"sink1": {}
 								}
 							},
 							"staging": {},
@@ -379,7 +380,7 @@
 						"type": "DatabricksNotebook",
 						"dependsOn": [
 							{
-								"activity": "Move only important columns",
+								"activity": "Copy important columns",
 								"dependencyConditions": [
 									"Succeeded"
 								]
@@ -421,6 +422,366 @@
 							"referenceName": "Formating notebook",
 							"type": "LinkedServiceReference"
 						}
+					},
+					{
+						"name": "Copy description table data",
+						"type": "Copy",
+						"dependsOn": [
+							{
+								"activity": "Copy important columns",
+								"dependencyConditions": [
+									"Succeeded"
+								]
+							}
+						],
+						"policy": {
+							"timeout": "0.12:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"source": {
+								"type": "AzurePostgreSqlSource",
+								"partitionOption": "None"
+							},
+							"sink": {
+								"type": "AzurePostgreSQLSink",
+								"writeBatchSize": 1000000,
+								"writeBatchTimeout": "00:30:00",
+								"writeMethod": "CopyCommand"
+							},
+							"enableStaging": false,
+							"translator": {
+								"type": "TabularTranslator",
+								"mappings": [
+									{
+										"source": {
+											"name": "description",
+											"type": "String",
+											"physicalType": "text"
+										},
+										"sink": {
+											"name": "description",
+											"type": "String",
+											"physicalType": "text"
+										}
+									},
+									{
+										"source": {
+											"name": "ingredients",
+											"type": "String",
+											"physicalType": "text"
+										},
+										"sink": {
+											"name": "ingredients",
+											"type": "String",
+											"physicalType": "text"
+										}
+									},
+									{
+										"source": {
+											"name": "allergens",
+											"type": "String",
+											"physicalType": "text"
+										},
+										"sink": {
+											"name": "allergens",
+											"type": "String",
+											"physicalType": "text"
+										}
+									}
+								],
+								"typeConversion": true,
+								"typeConversionSettings": {
+									"allowDataTruncation": true,
+									"treatBooleanAsNumber": false
+								}
+							}
+						},
+						"inputs": [
+							{
+								"referenceName": "ikiData_fromIkiProductsWh",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						],
+						"outputs": [
+							{
+								"referenceName": "description",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						]
+					},
+					{
+						"name": "Copy producers table data",
+						"type": "Copy",
+						"dependsOn": [
+							{
+								"activity": "Copy important columns",
+								"dependencyConditions": [
+									"Succeeded"
+								]
+							}
+						],
+						"policy": {
+							"timeout": "0.12:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"source": {
+								"type": "AzurePostgreSqlSource",
+								"partitionOption": "None"
+							},
+							"sink": {
+								"type": "AzurePostgreSQLSink",
+								"writeBatchSize": 1000000,
+								"writeBatchTimeout": "00:30:00",
+								"writeMethod": "CopyCommand"
+							},
+							"enableStaging": false,
+							"translator": {
+								"type": "TabularTranslator",
+								"mappings": [
+									{
+										"source": {
+											"name": "supplier",
+											"type": "String",
+											"physicalType": "text"
+										},
+										"sink": {
+											"name": "supplier",
+											"type": "String",
+											"physicalType": "text"
+										}
+									},
+									{
+										"source": {
+											"name": "producer",
+											"type": "String",
+											"physicalType": "text"
+										},
+										"sink": {
+											"name": "producer",
+											"type": "String",
+											"physicalType": "text"
+										}
+									}
+								],
+								"typeConversion": true,
+								"typeConversionSettings": {
+									"allowDataTruncation": true,
+									"treatBooleanAsNumber": false
+								}
+							}
+						},
+						"inputs": [
+							{
+								"referenceName": "ikiData_fromIkiProductsWh",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						],
+						"outputs": [
+							{
+								"referenceName": "producers",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						]
+					},
+					{
+						"name": "Copy countries table data",
+						"type": "Copy",
+						"dependsOn": [
+							{
+								"activity": "Copy important columns",
+								"dependencyConditions": [
+									"Succeeded"
+								]
+							}
+						],
+						"policy": {
+							"timeout": "0.12:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"source": {
+								"type": "AzurePostgreSqlSource",
+								"partitionOption": "None"
+							},
+							"sink": {
+								"type": "AzurePostgreSQLSink",
+								"writeBatchSize": 1000000,
+								"writeBatchTimeout": "00:30:00",
+								"writeMethod": "CopyCommand"
+							},
+							"enableStaging": false,
+							"translator": {
+								"type": "TabularTranslator",
+								"mappings": [
+									{
+										"source": {
+											"name": "name",
+											"type": "String",
+											"physicalType": "text"
+										},
+										"sink": {
+											"name": "name",
+											"type": "String",
+											"physicalType": "text"
+										}
+									}
+								],
+								"typeConversion": true,
+								"typeConversionSettings": {
+									"allowDataTruncation": true,
+									"treatBooleanAsNumber": false
+								}
+							}
+						},
+						"inputs": [
+							{
+								"referenceName": "ikiData_fromIkiProductsWh",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						],
+						"outputs": [
+							{
+								"referenceName": "countries",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						]
+					},
+					{
+						"name": "Copy products table data",
+						"type": "Copy",
+						"dependsOn": [
+							{
+								"activity": "Copy important columns",
+								"dependencyConditions": [
+									"Succeeded"
+								]
+							}
+						],
+						"policy": {
+							"timeout": "0.12:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"source": {
+								"type": "AzurePostgreSqlSource",
+								"partitionOption": "None"
+							},
+							"sink": {
+								"type": "AzurePostgreSQLSink",
+								"writeBatchSize": 1000000,
+								"writeBatchTimeout": "00:30:00",
+								"writeMethod": "CopyCommand"
+							},
+							"enableStaging": false,
+							"translator": {
+								"type": "TabularTranslator",
+								"mappings": [
+									{
+										"source": {
+											"name": "name",
+											"type": "String",
+											"physicalType": "text"
+										},
+										"sink": {
+											"name": "name",
+											"type": "String",
+											"physicalType": "text"
+										}
+									},
+									{
+										"source": {
+											"name": "description",
+											"type": "String",
+											"physicalType": "text"
+										},
+										"sink": {
+											"name": "description",
+											"type": "Int32",
+											"physicalType": "integer"
+										}
+									},
+									{
+										"source": {
+											"name": "constraintcode",
+											"type": "String",
+											"physicalType": "text"
+										},
+										"sink": {
+											"name": "constraintcode",
+											"type": "String",
+											"physicalType": "text"
+										}
+									},
+									{
+										"source": {
+											"name": "packaging",
+											"type": "String",
+											"physicalType": "text"
+										},
+										"sink": {
+											"name": "packaging",
+											"type": "String",
+											"physicalType": "text"
+										}
+									},
+									{
+										"source": {
+											"name": "storingconditions",
+											"type": "String",
+											"physicalType": "text"
+										},
+										"sink": {
+											"name": "storingconditions",
+											"type": "String",
+											"physicalType": "text"
+										}
+									}
+								],
+								"typeConversion": true,
+								"typeConversionSettings": {
+									"allowDataTruncation": true,
+									"treatBooleanAsNumber": false
+								}
+							}
+						},
+						"inputs": [
+							{
+								"referenceName": "ikiData_fromIkiProductsWh",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						],
+						"outputs": [
+							{
+								"referenceName": "product",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						]
 					}
 				],
 				"policy": {
@@ -433,7 +794,11 @@
 				"[concat(variables('factoryId'), '/datasets/rawIkiData_fromIkiProductsWH')]",
 				"[concat(variables('factoryId'), '/datasets/ikiData_fromIkiProductsWh')]",
 				"[concat(variables('factoryId'), '/dataflows/Move to tables')]",
-				"[concat(variables('factoryId'), '/linkedServices/Formating notebook')]"
+				"[concat(variables('factoryId'), '/linkedServices/Formating notebook')]",
+				"[concat(variables('factoryId'), '/datasets/description')]",
+				"[concat(variables('factoryId'), '/datasets/producers')]",
+				"[concat(variables('factoryId'), '/datasets/countries')]",
+				"[concat(variables('factoryId'), '/datasets/product')]"
 			]
 		},
 		{
@@ -642,6 +1007,46 @@
 				"typeProperties": {
 					"schema": "Iki",
 					"table": "nutritions"
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/iki_products')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/prices')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "iki_products",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "AzurePostgreSqlTable",
+				"schema": [
+					{
+						"name": "id",
+						"type": "integer",
+						"precision": 0,
+						"scale": 0
+					},
+					{
+						"name": "price",
+						"type": "double precision",
+						"precision": 0,
+						"scale": 0
+					},
+					{
+						"name": "priceonsale",
+						"type": "double precision",
+						"precision": 0,
+						"scale": 0
+					}
+				],
+				"typeProperties": {
+					"schema": "Iki",
+					"table": "prices"
 				}
 			},
 			"dependsOn": [
@@ -1284,15 +1689,12 @@
 								"referenceName": "prices",
 								"type": "DatasetReference"
 							},
-							"name": "prices"
+							"name": "sink1"
 						}
 					],
 					"transformations": [
 						{
-							"name": "ConvertingNutrition"
-						},
-						{
-							"name": "ConvertingPrices"
+							"name": "ConvertingToDoubles"
 						}
 					],
 					"scriptLines": [
@@ -1315,22 +1717,23 @@
 						"          carbs as string,",
 						"          satfat as string,",
 						"          sugar as string,",
-						"          pricesale as decimal(0,0),",
-						"          pricenosale as decimal(0,0)",
+						"          pricesale as double,",
+						"          pricenosale as double",
 						"     ),",
 						"     allowSchemaDrift: true,",
 						"     validateSchema: false,",
 						"     isolationLevel: 'READ_UNCOMMITTED',",
-						"     format: 'table') ~> ikiData",
+						"     query: 'SELECT * from ikidata',",
+						"     format: 'query') ~> ikiData",
 						"ikiData derive(fat = toDouble(fat),",
 						"          salt = toDouble(salt),",
 						"          protein = toDouble(protein),",
 						"          carbs = toDouble(carbs),",
 						"          satfat = toDouble(satfat),",
-						"          sugar = toDouble(sugar)) ~> ConvertingNutrition",
-						"ikiData derive(pricesale = toDouble(pricesale),",
-						"          pricenosale = toDouble(pricenosale)) ~> ConvertingPrices",
-						"ConvertingNutrition sink(allowSchemaDrift: true,",
+						"          sugar = toDouble(sugar),",
+						"          pricesale = toDouble(pricesale),",
+						"          pricenosale = toDouble(pricenosale)) ~> ConvertingToDoubles",
+						"ConvertingToDoubles sink(allowSchemaDrift: true,",
 						"     validateSchema: false,",
 						"     input(",
 						"          id as integer,",
@@ -1356,7 +1759,7 @@
 						"          satfat,",
 						"          sugar",
 						"     )) ~> nutrition",
-						"ConvertingPrices sink(allowSchemaDrift: true,",
+						"ConvertingToDoubles sink(allowSchemaDrift: true,",
 						"     validateSchema: false,",
 						"     input(",
 						"          id as integer,",
@@ -1368,12 +1771,10 @@
 						"     updateable:false,",
 						"     upsertable:false,",
 						"     format: 'table',",
-						"     skipDuplicateMapInputs: true,",
-						"     skipDuplicateMapOutputs: true,",
 						"     mapColumn(",
 						"          price = pricenosale,",
 						"          priceonsale = pricesale",
-						"     )) ~> prices"
+						"     )) ~> sink1"
 					]
 				}
 			},
@@ -1384,7 +1785,7 @@
 			]
 		},
 		{
-			"name": "[concat(parameters('factoryName'), '/prices')]",
+			"name": "[concat(parameters('factoryName'), '/description')]",
 			"type": "Microsoft.DataFactory/factories/datasets",
 			"apiVersion": "2018-06-01",
 			"properties": {
@@ -1402,21 +1803,183 @@
 						"scale": 0
 					},
 					{
-						"name": "price",
-						"type": "double precision",
+						"name": "description",
+						"type": "text",
 						"precision": 0,
 						"scale": 0
 					},
 					{
-						"name": "priceonsale",
-						"type": "double precision",
+						"name": "ingredients",
+						"type": "text",
+						"precision": 0,
+						"scale": 0
+					},
+					{
+						"name": "allergens",
+						"type": "text",
 						"precision": 0,
 						"scale": 0
 					}
 				],
 				"typeProperties": {
 					"schema": "Iki",
-					"table": "prices"
+					"table": "description"
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/iki_products')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/producers')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "iki_products",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "AzurePostgreSqlTable",
+				"schema": [
+					{
+						"name": "id",
+						"type": "integer",
+						"precision": 0,
+						"scale": 0
+					},
+					{
+						"name": "supplier",
+						"type": "text",
+						"precision": 0,
+						"scale": 0
+					},
+					{
+						"name": "producer",
+						"type": "text",
+						"precision": 0,
+						"scale": 0
+					}
+				],
+				"typeProperties": {
+					"schema": "Iki",
+					"table": "producers"
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/iki_products')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/countries')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "iki_products",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "AzurePostgreSqlTable",
+				"schema": [
+					{
+						"name": "id",
+						"type": "integer",
+						"precision": 0,
+						"scale": 0
+					},
+					{
+						"name": "name",
+						"type": "text",
+						"precision": 0,
+						"scale": 0
+					}
+				],
+				"typeProperties": {
+					"schema": "Iki",
+					"table": "countries"
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/iki_products')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/product')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "iki_products",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "AzurePostgreSqlTable",
+				"schema": [
+					{
+						"name": "id",
+						"type": "integer",
+						"precision": 0,
+						"scale": 0
+					},
+					{
+						"name": "name",
+						"type": "text",
+						"precision": 0,
+						"scale": 0
+					},
+					{
+						"name": "description",
+						"type": "integer",
+						"precision": 0,
+						"scale": 0
+					},
+					{
+						"name": "prices",
+						"type": "integer",
+						"precision": 0,
+						"scale": 0
+					},
+					{
+						"name": "producers",
+						"type": "integer",
+						"precision": 0,
+						"scale": 0
+					},
+					{
+						"name": "nutritions",
+						"type": "integer",
+						"precision": 0,
+						"scale": 0
+					},
+					{
+						"name": "country",
+						"type": "integer",
+						"precision": 0,
+						"scale": 0
+					},
+					{
+						"name": "constraintcode",
+						"type": "text",
+						"precision": 0,
+						"scale": 0
+					},
+					{
+						"name": "packaging",
+						"type": "text",
+						"precision": 0,
+						"scale": 0
+					},
+					{
+						"name": "storingconditions",
+						"type": "text",
+						"precision": 0,
+						"scale": 0
+					}
+				],
+				"typeProperties": {
+					"schema": "public",
+					"table": "product"
 				}
 			},
 			"dependsOn": [
