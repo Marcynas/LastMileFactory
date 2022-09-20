@@ -5,20 +5,17 @@
 		"factoryName": {
 			"value": "LastMileFactory"
 		},
-		"AzurePostgreSql_Products_connectionString": {
-			"value": ""
-		},
-		"Formating notebook_accessToken": {
-			"value": ""
-		},
 		"iki_ProductsWh_connectionString": {
 			"value": ""
 		},
 		"iki_products_connectionString": {
 			"value": ""
 		},
-		"Formating notebook_properties_typeProperties_existingClusterId": {
-			"value": "0914-123506-hbz51gu1"
+		"IkiFolder_accessToken": {
+			"value": ""
+		},
+		"IkiFolder_properties_typeProperties_existingClusterId": {
+			"value": "0920-140305-bnhi4eq6"
 		},
 		"containerUri": {
 			"value": ""

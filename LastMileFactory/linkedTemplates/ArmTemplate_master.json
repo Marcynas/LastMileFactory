@@ -7,14 +7,6 @@
 			"metadata": "Data Factory name",
 			"defaultValue": "LastMileFactory"
 		},
-		"AzurePostgreSql_Products_connectionString": {
-			"type": "secureString",
-			"metadata": "Secure string for 'connectionString' of 'AzurePostgreSql_Products'"
-		},
-		"Formating notebook_accessToken": {
-			"type": "secureString",
-			"metadata": "Secure string for 'accessToken' of 'Formating notebook'"
-		},
 		"iki_ProductsWh_connectionString": {
 			"type": "secureString",
 			"metadata": "Secure string for 'connectionString' of 'iki_ProductsWh'"
@@ -23,9 +15,13 @@
 			"type": "secureString",
 			"metadata": "Secure string for 'connectionString' of 'iki_products'"
 		},
-		"Formating notebook_properties_typeProperties_existingClusterId": {
+		"IkiFolder_accessToken": {
+			"type": "secureString",
+			"metadata": "Secure string for 'accessToken' of 'IkiFolder'"
+		},
+		"IkiFolder_properties_typeProperties_existingClusterId": {
 			"type": "string",
-			"defaultValue": "0914-123506-hbz51gu1"
+			"defaultValue": "0920-140305-bnhi4eq6"
 		},
 		"containerUri": {
 			"type": "string",
@@ -54,20 +50,17 @@
 					"factoryName": {
 						"value": "[parameters('factoryName')]"
 					},
-					"AzurePostgreSql_Products_connectionString": {
-						"value": "[parameters('AzurePostgreSql_Products_connectionString')]"
-					},
-					"Formating notebook_accessToken": {
-						"value": "[parameters('Formating notebook_accessToken')]"
-					},
 					"iki_ProductsWh_connectionString": {
 						"value": "[parameters('iki_ProductsWh_connectionString')]"
 					},
 					"iki_products_connectionString": {
 						"value": "[parameters('iki_products_connectionString')]"
 					},
-					"Formating notebook_properties_typeProperties_existingClusterId": {
-						"value": "[parameters('Formating notebook_properties_typeProperties_existingClusterId')]"
+					"IkiFolder_accessToken": {
+						"value": "[parameters('IkiFolder_accessToken')]"
+					},
+					"IkiFolder_properties_typeProperties_existingClusterId": {
+						"value": "[parameters('IkiFolder_properties_typeProperties_existingClusterId')]"
 					}
 				}
 			},

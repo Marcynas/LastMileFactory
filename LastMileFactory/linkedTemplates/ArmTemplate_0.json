@@ -7,14 +7,6 @@
 			"metadata": "Data Factory name",
 			"defaultValue": "LastMileFactory"
 		},
-		"AzurePostgreSql_Products_connectionString": {
-			"type": "secureString",
-			"metadata": "Secure string for 'connectionString' of 'AzurePostgreSql_Products'"
-		},
-		"Formating notebook_accessToken": {
-			"type": "secureString",
-			"metadata": "Secure string for 'accessToken' of 'Formating notebook'"
-		},
 		"iki_ProductsWh_connectionString": {
 			"type": "secureString",
 			"metadata": "Secure string for 'connectionString' of 'iki_ProductsWh'"
@@ -23,46 +15,19 @@
 			"type": "secureString",
 			"metadata": "Secure string for 'connectionString' of 'iki_products'"
 		},
-		"Formating notebook_properties_typeProperties_existingClusterId": {
+		"IkiFolder_accessToken": {
+			"type": "secureString",
+			"metadata": "Secure string for 'accessToken' of 'IkiFolder'"
+		},
+		"IkiFolder_properties_typeProperties_existingClusterId": {
 			"type": "string",
-			"defaultValue": "0914-123506-hbz51gu1"
+			"defaultValue": "0920-140305-bnhi4eq6"
 		}
 	},
 	"variables": {
 		"factoryId": "[concat('Microsoft.DataFactory/factories/', parameters('factoryName'))]"
 	},
 	"resources": [
-		{
-			"name": "[concat(parameters('factoryName'), '/AzurePostgreSql_Products')]",
-			"type": "Microsoft.DataFactory/factories/linkedServices",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"annotations": [],
-				"type": "AzurePostgreSql",
-				"typeProperties": {
-					"connectionString": "[parameters('AzurePostgreSql_Products_connectionString')]"
-				}
-			},
-			"dependsOn": []
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/Formating notebook')]",
-			"type": "Microsoft.DataFactory/factories/linkedServices",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"annotations": [],
-				"type": "AzureDatabricks",
-				"typeProperties": {
-					"domain": "https://adb-6231594754832173.13.azuredatabricks.net",
-					"accessToken": {
-						"type": "SecureString",
-						"value": "[parameters('Formating notebook_accessToken')]"
-					},
-					"existingClusterId": "[parameters('Formating notebook_properties_typeProperties_existingClusterId')]"
-				}
-			},
-			"dependsOn": []
-		},
 		{
 			"name": "[concat(parameters('factoryName'), '/iki_ProductsWh')]",
 			"type": "Microsoft.DataFactory/factories/linkedServices",
@@ -88,6 +53,104 @@
 				}
 			},
 			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/IkiFolder')]",
+			"type": "Microsoft.DataFactory/factories/linkedServices",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"annotations": [],
+				"type": "AzureDatabricks",
+				"typeProperties": {
+					"domain": "https://adb-5177292548805799.19.azuredatabricks.net",
+					"accessToken": {
+						"type": "SecureString",
+						"value": "[parameters('IkiFolder_accessToken')]"
+					},
+					"existingClusterId": "[parameters('IkiFolder_properties_typeProperties_existingClusterId')]"
+				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/countries')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "iki_products",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "AzurePostgreSqlTable",
+				"schema": [
+					{
+						"name": "id",
+						"type": "integer",
+						"precision": 0,
+						"scale": 0
+					},
+					{
+						"name": "name",
+						"type": "text",
+						"precision": 0,
+						"scale": 0
+					}
+				],
+				"typeProperties": {
+					"schema": "Iki",
+					"table": "countries"
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/iki_products')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/description')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "iki_products",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "AzurePostgreSqlTable",
+				"schema": [
+					{
+						"name": "id",
+						"type": "integer",
+						"precision": 0,
+						"scale": 0
+					},
+					{
+						"name": "description",
+						"type": "text",
+						"precision": 0,
+						"scale": 0
+					},
+					{
+						"name": "ingredients",
+						"type": "text",
+						"precision": 0,
+						"scale": 0
+					},
+					{
+						"name": "allergens",
+						"type": "text",
+						"precision": 0,
+						"scale": 0
+					}
+				],
+				"typeProperties": {
+					"schema": "Iki",
+					"table": "description"
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/iki_products')]"
+			]
 		},
 		{
 			"name": "[concat(parameters('factoryName'), '/ikiData_fromIkiProductsWh')]",
@@ -335,6 +398,128 @@
 				"typeProperties": {
 					"schema": "Iki",
 					"table": "prices"
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/iki_products')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/producers')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "iki_products",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "AzurePostgreSqlTable",
+				"schema": [
+					{
+						"name": "id",
+						"type": "integer",
+						"precision": 0,
+						"scale": 0
+					},
+					{
+						"name": "supplier",
+						"type": "text",
+						"precision": 0,
+						"scale": 0
+					},
+					{
+						"name": "producer",
+						"type": "text",
+						"precision": 0,
+						"scale": 0
+					}
+				],
+				"typeProperties": {
+					"schema": "Iki",
+					"table": "producers"
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/iki_products')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/product')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "iki_products",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "AzurePostgreSqlTable",
+				"schema": [
+					{
+						"name": "id",
+						"type": "integer",
+						"precision": 0,
+						"scale": 0
+					},
+					{
+						"name": "name",
+						"type": "text",
+						"precision": 0,
+						"scale": 0
+					},
+					{
+						"name": "description",
+						"type": "integer",
+						"precision": 0,
+						"scale": 0
+					},
+					{
+						"name": "prices",
+						"type": "integer",
+						"precision": 0,
+						"scale": 0
+					},
+					{
+						"name": "producers",
+						"type": "integer",
+						"precision": 0,
+						"scale": 0
+					},
+					{
+						"name": "nutritions",
+						"type": "integer",
+						"precision": 0,
+						"scale": 0
+					},
+					{
+						"name": "country",
+						"type": "integer",
+						"precision": 0,
+						"scale": 0
+					},
+					{
+						"name": "constraintcode",
+						"type": "text",
+						"precision": 0,
+						"scale": 0
+					},
+					{
+						"name": "packaging",
+						"type": "text",
+						"precision": 0,
+						"scale": 0
+					},
+					{
+						"name": "storingconditions",
+						"type": "text",
+						"precision": 0,
+						"scale": 0
+					}
+				],
+				"typeProperties": {
+					"schema": "public",
+					"table": "product"
 				}
 			},
 			"dependsOn": [
@@ -892,208 +1077,6 @@
 			]
 		},
 		{
-			"name": "[concat(parameters('factoryName'), '/description')]",
-			"type": "Microsoft.DataFactory/factories/datasets",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"linkedServiceName": {
-					"referenceName": "iki_products",
-					"type": "LinkedServiceReference"
-				},
-				"annotations": [],
-				"type": "AzurePostgreSqlTable",
-				"schema": [
-					{
-						"name": "id",
-						"type": "integer",
-						"precision": 0,
-						"scale": 0
-					},
-					{
-						"name": "description",
-						"type": "text",
-						"precision": 0,
-						"scale": 0
-					},
-					{
-						"name": "ingredients",
-						"type": "text",
-						"precision": 0,
-						"scale": 0
-					},
-					{
-						"name": "allergens",
-						"type": "text",
-						"precision": 0,
-						"scale": 0
-					}
-				],
-				"typeProperties": {
-					"schema": "Iki",
-					"table": "description"
-				}
-			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/linkedServices/iki_products')]"
-			]
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/producers')]",
-			"type": "Microsoft.DataFactory/factories/datasets",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"linkedServiceName": {
-					"referenceName": "iki_products",
-					"type": "LinkedServiceReference"
-				},
-				"annotations": [],
-				"type": "AzurePostgreSqlTable",
-				"schema": [
-					{
-						"name": "id",
-						"type": "integer",
-						"precision": 0,
-						"scale": 0
-					},
-					{
-						"name": "supplier",
-						"type": "text",
-						"precision": 0,
-						"scale": 0
-					},
-					{
-						"name": "producer",
-						"type": "text",
-						"precision": 0,
-						"scale": 0
-					}
-				],
-				"typeProperties": {
-					"schema": "Iki",
-					"table": "producers"
-				}
-			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/linkedServices/iki_products')]"
-			]
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/countries')]",
-			"type": "Microsoft.DataFactory/factories/datasets",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"linkedServiceName": {
-					"referenceName": "iki_products",
-					"type": "LinkedServiceReference"
-				},
-				"annotations": [],
-				"type": "AzurePostgreSqlTable",
-				"schema": [
-					{
-						"name": "id",
-						"type": "integer",
-						"precision": 0,
-						"scale": 0
-					},
-					{
-						"name": "name",
-						"type": "text",
-						"precision": 0,
-						"scale": 0
-					}
-				],
-				"typeProperties": {
-					"schema": "Iki",
-					"table": "countries"
-				}
-			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/linkedServices/iki_products')]"
-			]
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/product')]",
-			"type": "Microsoft.DataFactory/factories/datasets",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"linkedServiceName": {
-					"referenceName": "iki_products",
-					"type": "LinkedServiceReference"
-				},
-				"annotations": [],
-				"type": "AzurePostgreSqlTable",
-				"schema": [
-					{
-						"name": "id",
-						"type": "integer",
-						"precision": 0,
-						"scale": 0
-					},
-					{
-						"name": "name",
-						"type": "text",
-						"precision": 0,
-						"scale": 0
-					},
-					{
-						"name": "description",
-						"type": "integer",
-						"precision": 0,
-						"scale": 0
-					},
-					{
-						"name": "prices",
-						"type": "integer",
-						"precision": 0,
-						"scale": 0
-					},
-					{
-						"name": "producers",
-						"type": "integer",
-						"precision": 0,
-						"scale": 0
-					},
-					{
-						"name": "nutritions",
-						"type": "integer",
-						"precision": 0,
-						"scale": 0
-					},
-					{
-						"name": "country",
-						"type": "integer",
-						"precision": 0,
-						"scale": 0
-					},
-					{
-						"name": "constraintcode",
-						"type": "text",
-						"precision": 0,
-						"scale": 0
-					},
-					{
-						"name": "packaging",
-						"type": "text",
-						"precision": 0,
-						"scale": 0
-					},
-					{
-						"name": "storingconditions",
-						"type": "text",
-						"precision": 0,
-						"scale": 0
-					}
-				],
-				"typeProperties": {
-					"schema": "public",
-					"table": "product"
-				}
-			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/linkedServices/iki_products')]"
-			]
-		},
-		{
 			"name": "[concat(parameters('factoryName'), '/Move to tables')]",
 			"type": "Microsoft.DataFactory/factories/dataflows",
 			"apiVersion": "2018-06-01",
@@ -1583,7 +1566,7 @@
 							"notebookPath": "/IKIData/replace commas and remove letters"
 						},
 						"linkedServiceName": {
-							"referenceName": "Formating notebook",
+							"referenceName": "IkiFolder",
 							"type": "LinkedServiceReference"
 						}
 					},
@@ -1604,7 +1587,7 @@
 							"notebookPath": "/IKIData/main"
 						},
 						"linkedServiceName": {
-							"referenceName": "Formating notebook",
+							"referenceName": "IkiFolder",
 							"type": "LinkedServiceReference"
 						}
 					},
@@ -1955,6 +1938,63 @@
 								"parameters": {}
 							}
 						]
+					},
+					{
+						"name": "Truncate raw data",
+						"description": "just because i can",
+						"type": "Copy",
+						"dependsOn": [
+							{
+								"activity": "Copy important columns",
+								"dependencyConditions": [
+									"Succeeded"
+								]
+							}
+						],
+						"policy": {
+							"timeout": "0.12:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"source": {
+								"type": "AzurePostgreSqlSource",
+								"query": "truncate table \"iki_productsWh\".public.\"rawIkiData\"",
+								"partitionOption": "None"
+							},
+							"sink": {
+								"type": "AzurePostgreSQLSink",
+								"writeBatchSize": 1000000,
+								"writeBatchTimeout": "00:30:00",
+								"writeMethod": "CopyCommand"
+							},
+							"enableStaging": false,
+							"translator": {
+								"type": "TabularTranslator",
+								"typeConversion": true,
+								"typeConversionSettings": {
+									"allowDataTruncation": true,
+									"treatBooleanAsNumber": false
+								}
+							}
+						},
+						"inputs": [
+							{
+								"referenceName": "rawIkiData_fromIkiProductsWH",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						],
+						"outputs": [
+							{
+								"referenceName": "rawIkiData_fromIkiProductsWH",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						]
 					}
 				],
 				"policy": {
@@ -1967,7 +2007,7 @@
 				"[concat(variables('factoryId'), '/datasets/rawIkiData_fromIkiProductsWH')]",
 				"[concat(variables('factoryId'), '/datasets/ikiData_fromIkiProductsWh')]",
 				"[concat(variables('factoryId'), '/dataflows/Move to tables')]",
-				"[concat(variables('factoryId'), '/linkedServices/Formating notebook')]",
+				"[concat(variables('factoryId'), '/linkedServices/IkiFolder')]",
 				"[concat(variables('factoryId'), '/datasets/description')]",
 				"[concat(variables('factoryId'), '/datasets/producers')]",
 				"[concat(variables('factoryId'), '/datasets/countries')]",
