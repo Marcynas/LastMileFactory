@@ -584,7 +584,7 @@
 						"mappings": [
 							{
 								"source": {
-									"name": "name",
+									"name": "countryoforigin",
 									"type": "String",
 									"physicalType": "text"
 								},
