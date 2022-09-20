@@ -353,7 +353,7 @@
 					"notebookPath": "/IKIData/replace commas and remove letters"
 				},
 				"linkedServiceName": {
-					"referenceName": "Formating notebook",
+					"referenceName": "IkiFolder",
 					"type": "LinkedServiceReference"
 				}
 			},
@@ -374,7 +374,7 @@
 					"notebookPath": "/IKIData/main"
 				},
 				"linkedServiceName": {
-					"referenceName": "Formating notebook",
+					"referenceName": "IkiFolder",
 					"type": "LinkedServiceReference"
 				}
 			},
