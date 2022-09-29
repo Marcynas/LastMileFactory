@@ -16,4 +16,4 @@ Trying to move and transform data collected from "IKI" e-store.
 * https://eparduotuve.iki.lt/
 
 ### Following:
-* My gut
+* Nothing
